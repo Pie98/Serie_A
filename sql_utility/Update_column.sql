@@ -11,10 +11,6 @@ CASE
     ELSE CONCAT(CAST(YEAR(Date) AS CHAR), '/', CAST(YEAR(Date) + 1 AS CHAR))
 END;
 
-select stagione,count(*)
-from PARTITE_SERIE_A PSA 
-group by stagione;
-
 -- aggiungo la colonna giornata
 ALTER TABLE PARTITE_SERIE_A
 ADD COLUMN Giornata VARCHAR(20);
