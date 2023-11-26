@@ -70,7 +70,7 @@ def preprocess_match_days(directory_path):
 
     df_giornate = ps.sqldf(query_giornate, locals())
     df_giornate['date'] = pd.to_datetime(df_giornate['date'])
-
+    df_giornate['giornata'] = df_giornate['giornata'].astype(int)
     print('preprocessing finished!')
     return df_giornate
 
