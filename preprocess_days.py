@@ -27,12 +27,12 @@ def preprocess_match_days(directory_path):
 
     query_giornate = f''' 
                     SELECT 
-                    `Div`,
+                    `Div` AS div,
                     CEIL( (ROW_NUMBER() OVER (PARTITION BY stagione ORDER BY Date))/10) AS giornata,
                     stagione,
-                    Date,
-                    HomeTeam,
-                    AwayTeam,
+                    Date AS date,
+                    HomeTeam AS hometeam,
+                    AwayTeam as awayteam,
                     FTHG AS ft_home_goals,
                     FTAG AS ft_away_goals,
                     FTR AS ft_result,
@@ -66,8 +66,8 @@ def preprocess_match_days(directory_path):
                         FROM df_importanti PSA )
     '''
 
-    df_giornate = ps.sqldf(query_giornate, locals()).fillna(0)
-
+    df_giornate = ps.sqldf(query_giornate, locals())
+    print('preprocessing finished')
     return df_giornate
 
 
