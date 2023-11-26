@@ -1,6 +1,7 @@
 import pandas as pd 
 import os
 import pandasql as ps
+import numpy as np
 
 def preprocess_match_days(directory_path):
     concatenated_df = pd.DataFrame({})
@@ -28,7 +29,7 @@ def preprocess_match_days(directory_path):
     query_giornate = f''' 
                     SELECT 
                     `Div` AS div,
-                    CEIL( (ROW_NUMBER() OVER (PARTITION BY stagione ORDER BY Date))/10) AS giornata,
+                    (ROW_NUMBER() OVER (PARTITION BY stagione ORDER BY Date))/10 AS giornata,
                     stagione AS stagione,
                     Date AS date,
                     HomeTeam AS hometeam,
@@ -68,9 +69,10 @@ def preprocess_match_days(directory_path):
     '''
 
     df_giornate = ps.sqldf(query_giornate, locals())
+    df_giornate['giornata'] = np.ceil(df_giornate['giornata'])
     df_giornate['date'] = pd.to_datetime(df_giornate['date'])
 
-    print('preprocessing finishedddddddddd')
+    print('preprocessing finished')
     return df_giornate
 
 
