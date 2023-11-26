@@ -64,6 +64,7 @@ def preprocess_match_days(directory_path):
                             END AS Stagione,
                             Date    
                         FROM df_importanti PSA )
+                    ORDER BY date, hometeam    
     '''
 
     df_giornate = ps.sqldf(query_giornate, locals())
