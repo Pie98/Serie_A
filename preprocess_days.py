@@ -68,7 +68,6 @@ def preprocess_match_days(directory_path):
 
     df_giornate = ps.sqldf(query_giornate, locals())
     print('preprocessing finished')
-    print(df_giornate.columns)
     return df_giornate
 
 
