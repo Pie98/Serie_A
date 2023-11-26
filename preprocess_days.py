@@ -29,7 +29,7 @@ def preprocess_match_days(directory_path):
                     SELECT 
                     `Div` AS div,
                     CEIL( (ROW_NUMBER() OVER (PARTITION BY stagione ORDER BY Date))/10) AS giornata,
-                    stagione,
+                    stagione AS stagione,
                     Date AS date,
                     HomeTeam AS hometeam,
                     AwayTeam as awayteam,
@@ -68,6 +68,7 @@ def preprocess_match_days(directory_path):
 
     df_giornate = ps.sqldf(query_giornate, locals())
     print('preprocessing finished')
+    print(df_giornate.columns)
     return df_giornate
 
 
