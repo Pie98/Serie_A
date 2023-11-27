@@ -231,7 +231,7 @@ def preprocess_cumulative_stats(dataframe = [], directory = [], giorni_cumulativ
     					giornate.home_shots_targ,
     					home_teams.last_{giorni_cumulativi}_days_shots_target  AS home_last_{giorni_cumulativi}_days_shots_target,
     					giornate.away_shots_targ,
-    					away_teams.last_{giorni_cumulativi}_days_shots_target  AS away_last{giorni_cumulativi}_days_shots_target,
+    					away_teams.last_{giorni_cumulativi}_days_shots_target  AS away_last_{giorni_cumulativi}_days_shots_target,
     					giornate.home_fouls,
     					home_teams.last_{giorni_cumulativi}_days_fouls_done  AS home_last_{giorni_cumulativi}_days_fouls_done,
     					giornate.away_fouls,
