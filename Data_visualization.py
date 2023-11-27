@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import random
-
+import pandas as pd
 
 def visualize_home_win_season(dataframe, season = 'Random', team='Random'):
     df_win_loss = dataframe[['stagione','hometeam','awayteam','home_result']].reset_index(drop=True)
