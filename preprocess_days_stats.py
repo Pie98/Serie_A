@@ -179,28 +179,15 @@ def preprocess_cumulative_stats(dataframe = [], directory = [], giorni_cumulativ
             campo_cumulativo = 'last_'+str(giorni_cumulativi)+'_days_'+campo
             Statistiche_squadre_dict[squadra][campo_cumulativo] = df_new_column[campo_cumulativo]
             
-    
-    #
-    Statistiche_squadre_dict['Livorno'].head(10) 
-    
-    #
     # Unisco tutti i dataframe in un unico solo 
-    
-    #
     df_squadre_cumul = Statistiche_squadre_dict[squadre[0]]
     for squadra in squadre[1:]:
         df_squadre_cumul = pd.concat([df_squadre_cumul, Statistiche_squadre_dict[squadra]], ignore_index=True)
     
     df_squadre_cumul = df_squadre_cumul.sort_values(by='date')
     df_squadre_cumul.head(10)
-    
-    #
-    # ## Unisco le statistiche cumulative al df di partenza
-    
-    #
-    len(df_giornate), df_giornate.columns
-    
-    #
+
+    # Unisco le statistiche cumulative al df di partenza
     # Inizializzazione delle stringhe cumulative
     risultati_passati_casa = ''
     risultati_passati_trasferta = ''
@@ -275,7 +262,7 @@ def preprocess_cumulative_stats(dataframe = [], directory = [], giorni_cumulativ
     df_Serie_A = ps.sqldf(query_merge, locals()).sort_values(by='date')
     df_Serie_A['date'] = pd.to_datetime(df_Serie_A['date'])
     print('preprocess finished')
-    return df_Serie_A
+    return df_Serie_A, Statistiche_squadre_dict
     
 def preprocess_match_days(directory_path):
     concatenated_df = pd.DataFrame({})
@@ -347,6 +334,6 @@ def preprocess_match_days(directory_path):
     df_giornate['giornata'] = df_giornate['giornata'].astype(int)
     print('preprocessing finished!')
     
-    return df_giornate    
+    return df_giornate   
     
     
