@@ -4,7 +4,7 @@ import pandasql as ps
 import os
     
 
-def preprocess_cumulative_stats(dataframe = 0, directory = 0, giorni_cumulativi = 5):
+def preprocess_cumulative_stats(dataframe = [], directory = [], giorni_cumulativi = 5):
 
     if (len(directory) != 0):
         df_giornate = pd.read_csv(directory, parse_dates=['date'], index_col='index')
