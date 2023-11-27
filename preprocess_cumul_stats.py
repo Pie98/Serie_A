@@ -3,8 +3,16 @@ import numpy as np
 import pandasql as ps
     
 
-def preprocess_cumulative_stats(directory, giorni_cumulativi):
-    df_giornate = pd.read_csv(r"C:\Users\Hp\Documents\Serie_A\serie_a_giornate_202311220021.csv", parse_dates=['date'], index_col='index')
+def preprocess_cumulative_stats(dataframe = 0, directory = 0, giorni_cumulativi = 5):
+
+    if (len(directory) != 0):
+        df_giornate = pd.read_csv(directory, parse_dates=['date'], index_col='index')
+    elif (len(dataframe) !=0):   
+        df_giornate = dataframe
+    else:
+        print('Nessun input valido ricevuto')
+        return 0   
+    
     # Gestione dei valori nulli
     # Rimpiazzo i valori nulli delle odds con 0 e i valori nulli degli altri campi con la loro media
     colonne_nulle = ['away_shots','home_shots','away_shots_targ','home_shots_targ','away_corners','home_corners','away_fouls','home_fouls','ht_away_goals','ht_home_goals','home_yellow','away_yellow','home_red','away_red']
@@ -141,10 +149,6 @@ def preprocess_cumulative_stats(directory, giorni_cumulativi):
     # Creo delle statistiche cumulative per ogni squadra degli ultimi N giorni
     colonne_numeriche=['ft_goals', 'ht_goals', 'shots', 'shots_target','ft_goals_conceded', 'fouls_done', 'corners_obtained', 'yellows', 'reds']
     
-    for campo in colonne_numeriche:
-        campo_cumulativo = 'last_'+str(giorni_cumulativi)+'_days_'+campo
-        print(f'                        SUM({campo}) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS {campo_cumulativo},')
-    
     for squadra in squadre:
         temp_df = Statistiche_squadre_dict[squadra]
         query_cumul = f''' SELECT 
@@ -205,11 +209,6 @@ def preprocess_cumulative_stats(directory, giorni_cumulativi):
         risultati_passati_casa += f' home_teams.result_{i+1} AS home_result_{i+1}, '
         risultati_passati_trasferta += f' away_teams.result_{i+1} AS away_result_{i+1}, '
     
-    # Stampa delle stringhe cumulative
-    print(risultati_passati_casa)
-    print(risultati_passati_trasferta)
-    
-    #
     # creo la query per unire le colonne comulative ad ogni giornata
     query_merge = f'''
                     SELECT 
@@ -274,7 +273,7 @@ def preprocess_cumulative_stats(directory, giorni_cumulativi):
     
     df_Serie_A = ps.sqldf(query_merge, locals()).sort_values(by='date')
     df_Serie_A['date'] = pd.to_datetime(df_Serie_A['date'])
-    
+    print('preprocess finished')
     return df_Serie_A
     
     
