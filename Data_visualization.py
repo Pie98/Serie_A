@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import random
+
+
 def visualize_home_win_season(dataframe, season = 'Random', team='Random'):
     df_win_loss = dataframe[['stagione','hometeam','awayteam','home_result']]
 
@@ -10,7 +12,7 @@ def visualize_home_win_season(dataframe, season = 'Random', team='Random'):
     fig, axs = plt.subplots(num_plots, num_plots, figsize=(14, 14))
 
     if season == 'Random':
-        stagione = random.choice(dataframe['stagione'])
+        stagione = random.choice(df_win_loss['stagione'])
     else:
         stagione = team    
     df_win_loss = df_win_loss[df_win_loss['stagione']==stagione]
