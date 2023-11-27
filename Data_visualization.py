@@ -50,3 +50,6 @@ def visualize_home_win_season(dataframe, season = 'Random', team='Random'):
             statistiche_casa.plot(kind="bar", figsize=(10, 7), ax=ax, color=['green', 'yellow', 'red'])
             ax.set_title(f'Stagione: {stagione}, Squadra: {squadra}')
             ax.legend(bbox_to_anchor=(1.0, 1.0))
+
+    plt.show()
+    return 0
