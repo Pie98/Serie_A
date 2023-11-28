@@ -183,7 +183,7 @@ def visualize_wins__yellows_last_5(dataframe):
       # Impostare i label dell'asse x non ruotati
       ax.set_xticklabels(ax.get_xticklabels(), rotation=0)
       # Assegnare un nome all'asse x
-      ax.set_xlabel("shots last 5 matches")
+      ax.set_xlabel("yellows last 5 matches")
       
 
   plt.show()

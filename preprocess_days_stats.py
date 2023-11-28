@@ -153,15 +153,15 @@ def preprocess_cumulative_stats(dataframe = [], directory = [], giorni_cumulativ
     for squadra in squadre:
         temp_df = Statistiche_squadre_dict[squadra]
         query_cumul = f''' SELECT 
-                            SUM(ft_goals) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_5_days_ft_goals,
-                            SUM(ht_goals) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_5_days_ht_goals,
-                            SUM(shots) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_5_days_shots,
-                            SUM(shots_target) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_5_days_shots_target,
-                            SUM(ft_goals_conceded) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_5_days_ft_goals_conceded,
-                            SUM(fouls_done) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_5_days_fouls_done,
-                            SUM(corners_obtained) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_5_days_corners_obtained,
-                            SUM(yellows) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_5_days_yellows,
-                            SUM(reds) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_5_days_reds,
+                            SUM(ft_goals) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_{giorni_cumulativi}_days_ft_goals,
+                            SUM(ht_goals) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_{giorni_cumulativi}_days_ht_goals,
+                            SUM(shots) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_{giorni_cumulativi}_days_shots,
+                            SUM(shots_target) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_{giorni_cumulativi}_days_shots_target,
+                            SUM(ft_goals_conceded) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_{giorni_cumulativi}_days_ft_goals_conceded,
+                            SUM(fouls_done) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_{giorni_cumulativi}_days_fouls_done,
+                            SUM(corners_obtained) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_{giorni_cumulativi}_days_corners_obtained,
+                            SUM(yellows) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_{giorni_cumulativi}_days_yellows,
+                            SUM(reds) OVER (PARTITION BY stagione ORDER BY date ROWS BETWEEN {giorni_cumulativi} PRECEDING AND 1 PRECEDING ) AS last_{giorni_cumulativi}_days_reds,
                             SUM(points_shift) OVER (PARTITION BY stagione ORDER BY date) AS total_points
                         FROM (
                             SELECT
