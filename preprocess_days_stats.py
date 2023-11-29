@@ -105,7 +105,7 @@ def preprocess_cumulative_stats(dataframe = [], directory = [], giorni_cumulativ
 
     # ## Per ogni squadra creo un dataframe specifico 
     # ### Controllo che le squadre siano coerenti sia in casa che trasferta
-    print(f"\nle squadre sono uguali:\n {np.sort(df_giornate['hometeam'].unique()) == np.sort(df_giornate['awayteam'].unique())}")
+    #print(f"\nle squadre sono uguali:\n {np.sort(df_giornate['hometeam'].unique()) == np.sort(df_giornate['awayteam'].unique())}")
     
     squadre = np.sort(df_giornate['hometeam'].unique())
     
