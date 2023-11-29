@@ -99,9 +99,6 @@ def preprocess_cumulative_stats(dataframe = [], directory = [], giorni_cumulativ
         df_giornate[odd].fillna(0, inplace=True)   
     
     df_giornate['ht_results'].fillna('###', inplace=True)     
-    
-    
-    
 
     # ## Per ogni squadra creo un dataframe specifico 
     # ### Controllo che le squadre siano coerenti sia in casa che trasferta

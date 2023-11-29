@@ -47,7 +47,7 @@ def preprocess_columns(dataframe,numero_colonne,giorni_cumulativi):
 
     X_train_df, X_valid_df, Train_labels, Valid_labels = train_test_split(X_train_df, Train_labels, test_size=0.055, random_state=42)
 
-    print(f'lunghezza dataframe train {len(X_train_df)}, \n lunghezza dataframe valid {len(X_valid_df)}, \n lunghezza dataframe test {len(X_test_df)}')
+    #print(f'lunghezza dataframe train {len(X_train_df)}, \n lunghezza dataframe valid {len(X_valid_df)}, \n lunghezza dataframe test {len(X_test_df)}')
 
     all_numerical_columns= [f'home_total_points',f'away_total_points',f'home_last_{giorni_cumulativi}_days_ft_goals',f'away_last_{giorni_cumulativi}_days_ft_goals',f'home_last_{giorni_cumulativi}_days_ht_goals',
        f'away_last_{giorni_cumulativi}_days_ht_goals', f'home_last_{giorni_cumulativi}_days_ft_goals_conceded',f'away_last_{giorni_cumulativi}_days_ft_goals_conceded',
