@@ -44,7 +44,7 @@ class CSVLoggerCallback(tf.keras.callbacks.Callback):
 
 class CSVLoggerCallbackParams(tf.keras.callbacks.Callback):
     def __init__(self, filename, experiment_name, num_dense_layers, first_dropout, other_dropouts, first_num_neurons,
-                                    other_num_neurons, input_shape, first_activation, other_activations, overwrite= False):
+                                    other_num_neurons, first_activation, other_activations, overwrite= False):
         self.filename = filename
         self.experiment_name = experiment_name
         self.num_dense_layers = num_dense_layers
@@ -52,7 +52,6 @@ class CSVLoggerCallbackParams(tf.keras.callbacks.Callback):
         self.other_dropouts = other_dropouts
         self.first_num_neurons = first_num_neurons
         self.other_num_neurons = other_num_neurons
-        self.input_shape = input_shape
         self.first_activation = first_activation
         self.other_activations = other_activations
         self.fieldnames = ['experiment', 'num_dense_layers', 'first_dropout', 'other_dropouts', 'first_num_neurons',
@@ -79,7 +78,6 @@ class CSVLoggerCallbackParams(tf.keras.callbacks.Callback):
             'other_dropouts': self.other_dropouts,
             'first_num_neurons': self.first_num_neurons,
             'other_num_neurons': self.other_num_neurons,
-            'input_shape': self.input_shape,
             'first_activation': self.first_activation,
             'other_activations': self.other_activations,
             'accuracy': logs.get('accuracy'),
