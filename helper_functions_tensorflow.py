@@ -42,6 +42,55 @@ class CSVLoggerCallback(tf.keras.callbacks.Callback):
             writer = csv.DictWriter(file, fieldnames=self.fieldnames)
             writer.writerow(row)
 
+class CSVLoggerCallbackParams(tf.keras.callbacks.Callback):
+    def __init__(self, filename, experiment_name, num_dense_layers, first_dropout, other_dropouts, first_num_neurons,
+                                    other_num_neurons, input_shape, first_activation, other_activations, overwrite= False):
+        self.filename = filename
+        self.experiment_name = experiment_name
+        self.num_dense_layers = num_dense_layers
+        self.first_dropout = first_dropout
+        self.other_dropouts = other_dropouts
+        self.first_num_neurons = first_num_neurons
+        self.other_num_neurons = other_num_neurons
+        self.input_shape = input_shape
+        self.first_activation = first_activation
+        self.other_activations = other_activations
+        self.fieldnames = ['experiment', 'num_dense_layers', 'first_dropout', 'other_dropouts', 'first_num_neurons',
+                                    'other_num_neurons', 'first_activation', 'other_activations', 'epoch',
+                                    'loss', 'accuracy','val_loss','val_accuracy']  # Aggiungi altre metriche secondo necessità
+        self.first_time = overwrite
+        
+        if self.first_time:
+            write_mode = 'w'
+        else:
+            write_mode = 'a'
+        with open(self.filename, mode=write_mode, newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+            if self.first_time:
+                writer.writeheader()
+
+    def on_epoch_end(self, epoch, logs=None):
+        row = {
+            'experiment': self.experiment_name,
+            'epoch': epoch,
+            'loss': logs.get('loss'),
+            'num_dense_layers': self.num_dense_layers,
+            'first_dropout': self.first_dropout,
+            'other_dropouts': self.other_dropouts,
+            'first_num_neurons': self.first_num_neurons,
+            'other_num_neurons': self.other_num_neurons,
+            'input_shape': self.input_shape,
+            'first_activation': self.first_activation,
+            'other_activations': self.other_activations,
+            'accuracy': logs.get('accuracy'),
+            'val_loss': logs.get('val_loss'),
+            'val_accuracy': logs.get('val_accuracy'),
+            # Aggiungi altre metriche secondo necessità
+        }
+
+        with open(self.filename, mode='a', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+            writer.writerow(row)
 
 #plotto la loss e accuracy curves separatamente
 def plot_loss_curve(history):
