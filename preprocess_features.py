@@ -43,9 +43,9 @@ def preprocess_columns(dataframe,numero_colonne,giorni_cumulativi):
 
     #creo il train valid test
     X_train_df, X_test_df, Train_labels, Test_labels = train_test_split(df_stats_serie_A.drop(f'home_result', axis=1), df_stats_serie_A[f'home_result'],
-                                                                     test_size=0.1, random_state=42)
+                                                                     test_size=0.05, random_state=42)
 
-    X_train_df, X_valid_df, Train_labels, Valid_labels = train_test_split(X_train_df, Train_labels, test_size=0.055, random_state=42)
+    X_train_df, X_valid_df, Train_labels, Valid_labels = train_test_split(X_train_df, Train_labels, test_size=0.11, random_state=42)
 
     #print(f'lunghezza dataframe train {len(X_train_df)}, \n lunghezza dataframe valid {len(X_valid_df)}, \n lunghezza dataframe test {len(X_test_df)}')
 
