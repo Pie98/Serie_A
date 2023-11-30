@@ -43,36 +43,6 @@ class CSVLoggerCallback(tf.keras.callbacks.Callback):
             writer.writerow(row)
 
 
-## Funzione per importare un modello dal tensorflow hub
-def create_model(model_url, num_classes=10):
-  '''
-  args:
-    model_url (str): l'url di estrazione di un modello di tensorflow.
-    num_classes (int): Numero di neuroni di output nell'output layer, ovvero il numero di classi totali, default a 10
-
-  Returns:
-    Un modello keras non compilato con model_url come layer di estrazione di feature e un dense output layer con num_classes outputs
-  '''
-
-  #Scarico il modello pre-addestrato e salvarlo come un layer Keras
-  feature_extractor_layer = hub.KerasLayer(
-      model_url,
-      trainable = False, #Impostare trainable=False significa che i pesi del modello pre-addestrato non saranno aggiornati durante
-      #la fase di addestramento del tuo nuovo modello. In altre parole, il modello pre-addestrato rimarrà congelato e non subirà modifiche.
-      # è quello che voglio se voglio testare come performa questo modello sui miei dati
-      name = 'feature_extraction_layer',
-      input_shape = IMAGE_SHAPE + (3,)
-  )
-
-  #Creo il nostro modello
-  model = tf.keras.Sequential([
-      feature_extractor_layer,
-      layers.Dense(num_classes, activation = 'softmax', name = 'output_layer')
-  ])
-
-  return model
-
-
 #plotto la loss e accuracy curves separatamente
 def plot_loss_curve(history):
   '''
@@ -191,27 +161,6 @@ def compile_categorical_model_tuned(model_base, feature_extr_model, unfrozen_lay
                         metrics=["accuracy"])
     
     return model
-
-
-# Creo una funzione per trovare la i-esima immagine fra le varie batch 
-def find_image(indice, batch_size=32):
-    '''
-    input:
-      indice (int): La posizione dell'immagine che voglio cercare nel dataset (test_data_unshuffled). Per esempio l'immagine 35 sarà nella 
-      batch 2 (ovvero posto 1), come terza immagine (posto 2)
-    output:
-      immagine: l'immagine cercata  
-      0: nel caso che l'indice sia più grande la dimensione del dataset
-    '''
-    num_batch = int(indice/batch_size) # trovo la batch in cui sta la mia immagine 
-    elem_batch = int(indice % batch_size) # trova il posto nella batch in cui sta l'immagine
-    i=0
-    for images, labels in test_data_unshuffled:
-        if (i==num_batch):
-            immagine = images[elem_batch]
-            return immagine
-        i=i+1
-    return 0
 
 
 # Creo la funzione di valutazione
