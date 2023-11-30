@@ -58,6 +58,7 @@ class CSVLoggerCallbackParams(tf.keras.callbacks.Callback):
                                     'other_num_neurons', 'first_activation', 'other_activations', 'epoch',
                                     'loss', 'accuracy','val_loss','val_accuracy']  # Aggiungi altre metriche secondo necessità
         self.first_time = overwrite
+        self.best_val_loss = float('inf')
         
         if self.first_time:
             write_mode = 'w'
@@ -69,6 +70,12 @@ class CSVLoggerCallbackParams(tf.keras.callbacks.Callback):
                 writer.writeheader()
 
     def on_epoch_end(self, epoch, logs=None):
+        val_loss = logs.get('val_loss')
+
+        # Verifica se il val_loss attuale è migliore di quello precedentemente registrato
+        if val_loss < self.best_val_loss:
+            self.best_val_loss = val_loss
+
         row = {
             'experiment': self.experiment_name,
             'epoch': epoch,
