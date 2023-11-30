@@ -76,26 +76,26 @@ class CSVLoggerCallbackParams(tf.keras.callbacks.Callback):
         if val_loss < self.best_val_loss:
             self.best_val_loss = val_loss
 
-        row = {
-            'experiment': self.experiment_name,
-            'epoch': epoch,
-            'loss': logs.get('loss'),
-            'num_dense_layers': self.num_dense_layers,
-            'first_dropout': self.first_dropout,
-            'other_dropouts': self.other_dropouts,
-            'first_num_neurons': self.first_num_neurons,
-            'other_num_neurons': self.other_num_neurons,
-            'first_activation': self.first_activation,
-            'other_activations': self.other_activations,
-            'accuracy': logs.get('accuracy'),
-            'val_loss': logs.get('val_loss'),
-            'val_accuracy': logs.get('val_accuracy'),
-            # Aggiungi altre metriche secondo necessità
-        }
+            row = {
+                'experiment': self.experiment_name,
+                'epoch': epoch,
+                'loss': logs.get('loss'),
+                'num_dense_layers': self.num_dense_layers,
+                'first_dropout': self.first_dropout,
+                'other_dropouts': self.other_dropouts,
+                'first_num_neurons': self.first_num_neurons,
+                'other_num_neurons': self.other_num_neurons,
+                'first_activation': self.first_activation,
+                'other_activations': self.other_activations,
+                'accuracy': logs.get('accuracy'),
+                'val_loss': logs.get('val_loss'),
+                'val_accuracy': logs.get('val_accuracy'),
+                # Aggiungi altre metriche secondo necessità
+            }
 
-        with open(self.filename, mode='a', newline='') as file:
-            writer = csv.DictWriter(file, fieldnames=self.fieldnames)
-            writer.writerow(row)
+            with open(self.filename, mode='a', newline='') as file:
+                writer = csv.DictWriter(file, fieldnames=self.fieldnames)
+                writer.writerow(row)
 
 #plotto la loss e accuracy curves separatamente
 def plot_loss_curve(history):
