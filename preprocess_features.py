@@ -107,4 +107,5 @@ def preprocess_columns(dataframe,numero_colonne,giorni_cumulativi):
     Valid_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Valid_labels).reshape(-1, 1)))
     Test_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Test_labels).reshape(-1, 1)))  
 
-    return  X_train_norm, X_valid_norm, X_test_norm, Train_labels_encoded, Valid_labels_encoded, Test_labels_encoded
+    return  (X_train_norm, X_valid_norm, X_test_norm, Train_labels_encoded, Valid_labels_encoded, Test_labels_encoded, 
+               X_train_df, X_valid_df, X_test_df, Train_labels, Valid_labels, Test_labels)
