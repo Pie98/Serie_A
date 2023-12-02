@@ -43,10 +43,12 @@ class CSVLoggerCallback(tf.keras.callbacks.Callback):
             writer.writerow(row)
 
 class CSVLoggerCallbackParams(tf.keras.callbacks.Callback):
-    def __init__(self, filename, experiment_name, num_dense_layers, first_dropout, other_dropouts, first_num_neurons,
+    def __init__(self, filename, experiment_name, giorni_cumulativi, numero_colonne, num_dense_layers, first_dropout, other_dropouts, first_num_neurons,
                                     other_num_neurons, first_activation, other_activations, overwrite= False):
         self.filename = filename
         self.experiment_name = experiment_name
+        self.giorni_cumulativi = giorni_cumulativi
+        self.numero_colonne = numero_colonne
         self.num_dense_layers = num_dense_layers
         self.first_dropout = first_dropout
         self.other_dropouts = other_dropouts
@@ -54,7 +56,7 @@ class CSVLoggerCallbackParams(tf.keras.callbacks.Callback):
         self.other_num_neurons = other_num_neurons
         self.first_activation = first_activation
         self.other_activations = other_activations
-        self.fieldnames = ['experiment', 'num_dense_layers', 'first_dropout', 'other_dropouts', 'first_num_neurons',
+        self.fieldnames = ['experiment', 'num_dense_layers','giorni_cumulativi','numero_colonne', 'first_dropout', 'other_dropouts', 'first_num_neurons',
                                     'other_num_neurons', 'first_activation', 'other_activations', 'epoch',
                                     'loss', 'accuracy','val_loss','val_accuracy']  # Aggiungi altre metriche secondo necessità
         self.first_time = overwrite
@@ -80,6 +82,8 @@ class CSVLoggerCallbackParams(tf.keras.callbacks.Callback):
                 'experiment': self.experiment_name,
                 'epoch': epoch,
                 'loss': logs.get('loss'),
+                'giorni_cumulativi': self.giorni_cumulativi,
+                'numero_colonne': self.numero_colonne,
                 'num_dense_layers': self.num_dense_layers,
                 'first_dropout': self.first_dropout,
                 'other_dropouts': self.other_dropouts,

@@ -77,6 +77,7 @@ def preprocess_match_days(directory_path):
     return df_giornate      
 
 def preprocess_cumulative_stats(dataframe = [], directory = [], giorni_cumulativi = 5):
+    
 
     if (len(directory) != 0):
         df_giornate = pd.read_csv(directory, parse_dates=['date'], index_col='index')
