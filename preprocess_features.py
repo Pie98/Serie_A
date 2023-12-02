@@ -116,6 +116,8 @@ def preprocess_columns(dataframe,numero_colonne,giorni_cumulativi, oversample=Fa
                X_train_df, X_valid_df, X_test_df, Train_labels, Valid_labels, Test_labels)
 
 
+
+
 def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, oversample=False):
     all_columns = ['giornata', 'stagione','hometeam', 'awayteam','home_total_points','home_result', 'away_total_points', f'home_last_{giorni_cumulativi}_days_ft_goals',
                f'away_last_{giorni_cumulativi}_days_ft_goals',f'home_last_{giorni_cumulativi}_days_ht_goals',f'away_last_{giorni_cumulativi}_days_ht_goals', f'away_last_{giorni_cumulativi}_days_shots',
@@ -159,6 +161,15 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
 
     X_train_df, X_valid_df, Train_labels, Valid_labels = train_test_split(X_train_df, Train_labels, test_size=0.11, random_state=42)
 
+    Train_odds_df = X_train_df[['home_win_odds','draw_odds','away_win_odds']]
+    Valid_odds_df = X_valid_df[['home_win_odds','draw_odds','away_win_odds']]
+    Test_odds_df =  X_test_df[['home_win_odds','draw_odds','away_win_odds']]
+
+    X_train_df.drop(['home_win_odds','draw_odds','away_win_odds'],inplace=True)
+    X_valid_df.drop(['home_win_odds','draw_odds','away_win_odds'],inplace=True)
+    X_test_df.drop(['home_win_odds','draw_odds','away_win_odds'],inplace=True)
+
+
     if oversample: #questo permette di fare l'oversampling di cui si parlava prima
       ros = RandomOverSampler()
       X_train_df, Train_labels = ros.fit_resample(X_train_df, Train_labels)
@@ -170,17 +181,15 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
        f'home_last_{giorni_cumulativi}_days_shots',f'home_last_{giorni_cumulativi}_days_shots_target',f'away_last_{giorni_cumulativi}_days_shots',f'away_last_{giorni_cumulativi}_days_shots_target',
        f'home_last_{giorni_cumulativi}_days_fouls_done',f'away_last_{giorni_cumulativi}_days_fouls_done',f'home_last_{giorni_cumulativi}_days_corners_obtained',
        f'away_last_{giorni_cumulativi}_days_corners_obtained',f'home_last_{giorni_cumulativi}_days_yellows',f'away_last_{giorni_cumulativi}_days_yellows',f'home_last_{giorni_cumulativi}_days_reds', 
-       f'away_last_{giorni_cumulativi}_days_reds','home_win_odds', 'draw_odds', 'away_win_odds']
+       f'away_last_{giorni_cumulativi}_days_reds']
 
     less_numerical_columns = [f'home_total_points',f'away_total_points',f'home_last_{giorni_cumulativi}_days_ft_goals',f'away_last_{giorni_cumulativi}_days_ft_goals',
                            f'home_last_{giorni_cumulativi}_days_ft_goals_conceded',f'away_last_{giorni_cumulativi}_days_ft_goals_conceded',
                            f'away_last_{giorni_cumulativi}_days_shots',f'home_last_{giorni_cumulativi}_days_shots',
-                           f'home_last_{giorni_cumulativi}_days_yellows',f'away_last_{giorni_cumulativi}_days_yellows',
-                           'home_win_odds', 'draw_odds', 'away_win_odds']
+                           f'home_last_{giorni_cumulativi}_days_yellows',f'away_last_{giorni_cumulativi}_days_yellows']
 
     few_numerical_columns = [f'home_total_points',f'away_total_points',f'home_last_{giorni_cumulativi}_days_ft_goals',f'away_last_{giorni_cumulativi}_days_ft_goals',f'home_last_{giorni_cumulativi}_days_ft_goals_conceded',
-                            f'away_last_{giorni_cumulativi}_days_ft_goals_conceded',f'away_last_{giorni_cumulativi}_days_shots',f'home_last_{giorni_cumulativi}_days_shots'
-                            'home_win_odds', 'draw_odds', 'away_win_odds']
+                            f'away_last_{giorni_cumulativi}_days_ft_goals_conceded',f'away_last_{giorni_cumulativi}_days_shots',f'home_last_{giorni_cumulativi}_days_shots']
 
 
     all_categorical_columns = ['giornata', 'stagione',f'hometeam', f'awayteam']
@@ -217,6 +226,15 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
     X_valid_norm  = ct.transform(X_valid_df)
     X_test_norm = ct.transform(X_test_df)
 
+    odds_transform = make_column_transformer(
+    (MinMaxScaler(), ['home_win_odds','draw_odds','away_win_odds']), #normalizza queste colonne con minmax
+    sparse_threshold=0  
+    )
+
+    Train_odds_df = make_column_transformer(Train_odds_df)
+    Valid_odds_df = make_column_transformer(Valid_odds_df)
+    Train_odds_df = make_column_transformer(Train_odds_df)
+
     # Crea un OrdinalEncoder
     ordinal_encoder = OrdinalEncoder()
     # Addestra l'OrdinalEncoder su Train_labels e applica la trasformazione
@@ -227,4 +245,4 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
     Test_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Test_labels).reshape(-1, 1)))  
 
     return  (X_train_norm, X_valid_norm, X_test_norm, Train_labels_encoded, Valid_labels_encoded, Test_labels_encoded, 
-               X_train_df, X_valid_df, X_test_df, Train_labels, Valid_labels, Test_labels)
+               X_train_df, X_valid_df, X_test_df, Train_labels, Valid_labels, Test_labels,Train_odds_df,Valid_odds_df,Train_odds_df)
