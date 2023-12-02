@@ -233,7 +233,7 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
 
     Train_odds_df = make_column_transformer(Train_odds_df)
     Valid_odds_df = make_column_transformer(Valid_odds_df)
-    Train_odds_df = make_column_transformer(Train_odds_df)
+    Test_odds_df = make_column_transformer(Test_odds_df)
 
     # Crea un OrdinalEncoder
     ordinal_encoder = OrdinalEncoder()
@@ -245,4 +245,4 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
     Test_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Test_labels).reshape(-1, 1)))  
 
     return  (X_train_norm, X_valid_norm, X_test_norm, Train_labels_encoded, Valid_labels_encoded, Test_labels_encoded, 
-               X_train_df, X_valid_df, X_test_df, Train_labels, Valid_labels, Test_labels,Train_odds_df,Valid_odds_df,Train_odds_df)
+               X_train_df, X_valid_df, X_test_df, Train_labels, Valid_labels, Test_labels,Train_odds_df,Valid_odds_df,Test_odds_df)
