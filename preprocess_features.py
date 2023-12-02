@@ -117,7 +117,6 @@ def preprocess_columns(dataframe,numero_colonne,giorni_cumulativi, oversample=Fa
 
 
 
-
 def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, oversample=False):
     all_columns = ['giornata', 'stagione','hometeam', 'awayteam','home_total_points','home_result', 'away_total_points', f'home_last_{giorni_cumulativi}_days_ft_goals',
                f'away_last_{giorni_cumulativi}_days_ft_goals',f'home_last_{giorni_cumulativi}_days_ht_goals',f'away_last_{giorni_cumulativi}_days_ht_goals', f'away_last_{giorni_cumulativi}_days_shots',
@@ -165,9 +164,9 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
     Valid_odds_df = X_valid_df[['home_win_odds','draw_odds','away_win_odds']]
     Test_odds_df =  X_test_df[['home_win_odds','draw_odds','away_win_odds']]
 
-    X_train_df.drop(['home_win_odds','draw_odds','away_win_odds'],inplace=True)
-    X_valid_df.drop(['home_win_odds','draw_odds','away_win_odds'],inplace=True)
-    X_test_df.drop(['home_win_odds','draw_odds','away_win_odds'],inplace=True)
+    X_train_df.drop(columns=['home_win_odds','draw_odds','away_win_odds'],inplace=True)
+    X_valid_df.drop(columns=['home_win_odds','draw_odds','away_win_odds'],inplace=True)
+    X_test_df.drop(columns=['home_win_odds','draw_odds','away_win_odds'],inplace=True)
 
 
     if oversample: #questo permette di fare l'oversampling di cui si parlava prima
@@ -230,10 +229,11 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
     (MinMaxScaler(), ['home_win_odds','draw_odds','away_win_odds']), #normalizza queste colonne con minmax
     sparse_threshold=0  
     )
-
-    Train_odds_df = make_column_transformer(Train_odds_df)
-    Valid_odds_df = make_column_transformer(Valid_odds_df)
-    Test_odds_df = make_column_transformer(Test_odds_df)
+    odds_transform.fit(Train_odds_df)
+    
+    Train_odds_df = odds_transform.transform(Train_odds_df)
+    Valid_odds_df = odds_transform.transform(Valid_odds_df)
+    Test_odds_df = odds_transform.transform(Test_odds_df)
 
     # Crea un OrdinalEncoder
     ordinal_encoder = OrdinalEncoder()
