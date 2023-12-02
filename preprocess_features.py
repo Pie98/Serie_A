@@ -123,16 +123,17 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
        f'home_last_{giorni_cumulativi}_days_shots',f'home_last_{giorni_cumulativi}_days_shots_target',
        f'away_last_{giorni_cumulativi}_days_shots_target',f'home_last_{giorni_cumulativi}_days_fouls_done',f'away_last_{giorni_cumulativi}_days_fouls_done',f'home_last_{giorni_cumulativi}_days_corners_obtained',
        f'away_last_{giorni_cumulativi}_days_corners_obtained',f'home_last_{giorni_cumulativi}_days_yellows',f'away_last_{giorni_cumulativi}_days_yellows',
-       f'home_last_{giorni_cumulativi}_days_reds', f'away_last_{giorni_cumulativi}_days_reds']
+       f'home_last_{giorni_cumulativi}_days_reds', f'away_last_{giorni_cumulativi}_days_reds', 'home_win_odds', 'draw_odds', 'away_win_odds']
 
     less_columns = ['stagione','hometeam', 'awayteam','home_total_points','home_result', 'away_total_points',f'home_last_{giorni_cumulativi}_days_ft_goals',
        f'away_last_{giorni_cumulativi}_days_ft_goals',f'home_last_{giorni_cumulativi}_days_ft_goals_conceded',f'away_last_{giorni_cumulativi}_days_ft_goals_conceded',f'home_last_{giorni_cumulativi}_days_shots',
-       f'away_last_{giorni_cumulativi}_days_shots',f'home_last_{giorni_cumulativi}_days_yellows',f'away_last_{giorni_cumulativi}_days_yellows']
+       f'away_last_{giorni_cumulativi}_days_shots',f'home_last_{giorni_cumulativi}_days_yellows',f'away_last_{giorni_cumulativi}_days_yellows',
+       'home_win_odds', 'draw_odds', 'away_win_odds']
 
     few_columns = ['hometeam', 'awayteam','home_total_points','home_result', 'away_total_points',f'home_last_{giorni_cumulativi}_days_ft_goals',
                f'away_last_{giorni_cumulativi}_days_ft_goals',f'home_last_{giorni_cumulativi}_days_ft_goals_conceded',
                f'away_last_{giorni_cumulativi}_days_ft_goals_conceded',f'home_last_{giorni_cumulativi}_days_shots',
-               f'away_last_{giorni_cumulativi}_days_shots']
+               f'away_last_{giorni_cumulativi}_days_shots','home_win_odds', 'draw_odds', 'away_win_odds']
 
 
     if numero_colonne == 'all':
@@ -169,14 +170,17 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
        f'home_last_{giorni_cumulativi}_days_shots',f'home_last_{giorni_cumulativi}_days_shots_target',f'away_last_{giorni_cumulativi}_days_shots',f'away_last_{giorni_cumulativi}_days_shots_target',
        f'home_last_{giorni_cumulativi}_days_fouls_done',f'away_last_{giorni_cumulativi}_days_fouls_done',f'home_last_{giorni_cumulativi}_days_corners_obtained',
        f'away_last_{giorni_cumulativi}_days_corners_obtained',f'home_last_{giorni_cumulativi}_days_yellows',f'away_last_{giorni_cumulativi}_days_yellows',f'home_last_{giorni_cumulativi}_days_reds', 
-       f'away_last_{giorni_cumulativi}_days_reds']
+       f'away_last_{giorni_cumulativi}_days_reds','home_win_odds', 'draw_odds', 'away_win_odds']
 
-    less_numerical_columns = [f'home_total_points',f'away_total_points',f'home_last_{giorni_cumulativi}_days_ft_goals',f'away_last_{giorni_cumulativi}_days_ft_goals',f'home_last_{giorni_cumulativi}_days_ft_goals_conceded',
-                            f'away_last_{giorni_cumulativi}_days_ft_goals_conceded',f'away_last_{giorni_cumulativi}_days_shots',f'home_last_{giorni_cumulativi}_days_shots',
-                            f'home_last_{giorni_cumulativi}_days_yellows',f'away_last_{giorni_cumulativi}_days_yellows']
+    less_numerical_columns = [f'home_total_points',f'away_total_points',f'home_last_{giorni_cumulativi}_days_ft_goals',f'away_last_{giorni_cumulativi}_days_ft_goals',
+                           f'home_last_{giorni_cumulativi}_days_ft_goals_conceded',f'away_last_{giorni_cumulativi}_days_ft_goals_conceded',
+                           f'away_last_{giorni_cumulativi}_days_shots',f'home_last_{giorni_cumulativi}_days_shots',
+                           f'home_last_{giorni_cumulativi}_days_yellows',f'away_last_{giorni_cumulativi}_days_yellows',
+                           'home_win_odds', 'draw_odds', 'away_win_odds']
 
     few_numerical_columns = [f'home_total_points',f'away_total_points',f'home_last_{giorni_cumulativi}_days_ft_goals',f'away_last_{giorni_cumulativi}_days_ft_goals',f'home_last_{giorni_cumulativi}_days_ft_goals_conceded',
-                            f'away_last_{giorni_cumulativi}_days_ft_goals_conceded',f'away_last_{giorni_cumulativi}_days_shots',f'home_last_{giorni_cumulativi}_days_shots']
+                            f'away_last_{giorni_cumulativi}_days_ft_goals_conceded',f'away_last_{giorni_cumulativi}_days_shots',f'home_last_{giorni_cumulativi}_days_shots'
+                            'home_win_odds', 'draw_odds', 'away_win_odds']
 
 
     all_categorical_columns = ['giornata', 'stagione',f'hometeam', f'awayteam']
