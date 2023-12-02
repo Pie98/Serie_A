@@ -2,10 +2,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 from sklearn.preprocessing import OrdinalEncoder
+from imblearn.over_sampling import RandomOverSampler
 import numpy as np 
 import pandas as pd 
 
-def preprocess_columns(dataframe,numero_colonne,giorni_cumulativi):
+def preprocess_columns(dataframe,numero_colonne,giorni_cumulativi, oversample=False):
     all_columns = ['giornata', 'stagione','hometeam', 'awayteam','home_total_points','home_result', 'away_total_points', f'home_last_{giorni_cumulativi}_days_ft_goals',
                f'away_last_{giorni_cumulativi}_days_ft_goals',f'home_last_{giorni_cumulativi}_days_ht_goals',f'away_last_{giorni_cumulativi}_days_ht_goals', f'away_last_{giorni_cumulativi}_days_shots',
        f'home_last_{giorni_cumulativi}_days_ft_goals_conceded',f'away_last_{giorni_cumulativi}_days_ft_goals_conceded',
@@ -46,6 +47,10 @@ def preprocess_columns(dataframe,numero_colonne,giorni_cumulativi):
                                                                      test_size=0.05, random_state=42)
 
     X_train_df, X_valid_df, Train_labels, Valid_labels = train_test_split(X_train_df, Train_labels, test_size=0.11, random_state=42)
+
+    if oversample: #questo permette di fare l'oversampling di cui si parlava prima
+      ros = RandomOverSampler()
+      X_train_df, Train_labels = ros.fit_resample(Train_labels, Train_labels)
 
     #print(f'lunghezza dataframe train {len(X_train_df)}, \n lunghezza dataframe valid {len(X_valid_df)}, \n lunghezza dataframe test {len(X_test_df)}')
 
