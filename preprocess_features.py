@@ -50,7 +50,7 @@ def preprocess_columns(dataframe,numero_colonne,giorni_cumulativi, oversample=Fa
 
     if oversample: #questo permette di fare l'oversampling di cui si parlava prima
       ros = RandomOverSampler()
-      X_train_df, Train_labels = ros.fit_resample(Train_labels, Train_labels)
+      X_train_df, Train_labels = ros.fit_resample(X_train_df, Train_labels)
 
     #print(f'lunghezza dataframe train {len(X_train_df)}, \n lunghezza dataframe valid {len(X_valid_df)}, \n lunghezza dataframe test {len(X_test_df)}')
 

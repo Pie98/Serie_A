@@ -1,5 +1,1 @@
-giorni_cumulativi,vanumero_colonne,vicini,val_accuracy,train_accuracy
-1,all,9,0.43,0.58
-1,all,15,0.45,0.55
-1,all,27,0.46,0.53
-1,all,33,0.48,0.53
+giorni_cumulativi,vanumero_colonne,oversample,vicini,val_accuracy,train_accuracy
