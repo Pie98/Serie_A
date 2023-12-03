@@ -160,6 +160,10 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
 
     X_train_df, X_valid_df, Train_labels, Valid_labels = train_test_split(X_train_df, Train_labels, test_size=0.11, random_state=42)
 
+    if oversample: #questo permette di fare l'oversampling di cui si parlava prima
+      ros = RandomOverSampler()
+      X_train_df, Train_labels = ros.fit_resample(X_train_df, Train_labels)
+
     Train_odds_df = X_train_df[['home_win_odds','draw_odds','away_win_odds']]
     Valid_odds_df = X_valid_df[['home_win_odds','draw_odds','away_win_odds']]
     Test_odds_df =  X_test_df[['home_win_odds','draw_odds','away_win_odds']]
@@ -168,10 +172,6 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
     X_valid_df.drop(columns=['home_win_odds','draw_odds','away_win_odds'],inplace=True)
     X_test_df.drop(columns=['home_win_odds','draw_odds','away_win_odds'],inplace=True)
 
-
-    if oversample: #questo permette di fare l'oversampling di cui si parlava prima
-      ros = RandomOverSampler()
-      X_train_df, Train_labels = ros.fit_resample(X_train_df, Train_labels)
 
     #print(f'lunghezza dataframe train {len(X_train_df)}, \n lunghezza dataframe valid {len(X_valid_df)}, \n lunghezza dataframe test {len(X_test_df)}')
 
