@@ -107,3 +107,45 @@ def preprocess_features_time_series(df_Serie_A, num_features):
             if pattern.match(colonna):
                 Test_dict_features[feature][colonna]=Valid_df[colonna]
 
+    #encoding teams
+    teams_transf = make_column_transformer(
+    (OneHotEncoder(handle_unknown='ignore'), ['hometeam','awayteam']),
+    sparse_threshold=0  
+    )
+
+    teams_transf.fit(Train_teams)
+
+    Train_teams_encoded = teams_transf.transform(Train_teams)
+    Valid_teams_encoded = teams_transf.transform(Valid_teams)
+    Test_teams_encoded = teams_transf.transform(Test_teams)
+
+    #encoding labels
+    label_transf = make_column_transformer(
+    (OneHotEncoder(handle_unknown='ignore'), ['ft_result']),
+    sparse_threshold=0  
+    )
+
+    label_transf.fit(Train_labels)
+    Train_labels_encoded = label_transf.transform(Train_labels)
+    Valid_labels_encoded = label_transf.transform(Valid_labels)
+    Test_labels_encoded = label_transf.transform(Test_labels)
+
+    #encoding numerical features
+    Train_dict_features_norm = Train_dict_features.copy()
+    Valid_dict_features_norm = Valid_dict_features.copy()
+    Test_dict_features_norm = Test_dict_features.copy()
+
+    for feature in list(Train_dict_features.keys()):
+        feature_list = Train_dict_features_norm[feature].columns
+        numerical_transf = make_column_transformer(
+            (MinMaxScaler(), feature_list), 
+            sparse_threshold=0  
+        )
+        numerical_transf.fit(Train_dict_features[feature])
+        Train_dict_features_norm[feature] = numerical_transf.transform(Train_dict_features_norm[feature])
+        Valid_dict_features_norm[feature] = numerical_transf.transform(Valid_dict_features_norm[feature])
+        Test_dict_features_norm[feature] = numerical_transf.transform(Test_dict_features_norm[feature])
+
+    return (Train_teams_encoded, Valid_teams_encoded, Test_teams_encoded, Train_labels_encoded, Valid_labels_encoded, Test_labels_encoded, 
+            Train_dict_features_norm, Valid_dict_features_norm, Test_dict_features_norm, Train_teams, Valid_teams, Test_teams, Train_labels, Valid_labels, Test_labels, 
+            Train_dict_features, Valid_dict_features, Test_dict_features, Train_odds, Valid_odds, Test_odds)
