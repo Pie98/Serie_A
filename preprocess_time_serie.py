@@ -144,7 +144,7 @@ def preprocess_teams(dataframe = [], directory = []):
 
 # ----------------------------------------- #
 
-def preprocess_time_series_features(num_features, team_stats_dict, df_giornate, giorni_cumulativi ):
+def create_time_series_features(num_features, team_stats_dict, df_giornate, giorni_cumulativi ):
    all_features = ['ft_goals','ft_goals_conceded','shots','shots_target', 'fouls_done','corners_obtained', 'yellows', 'reds']
    less_features = ['ft_goals','ft_goals_conceded','shots', 'fouls_done','corners_obtained', 'reds']
    few_features = ['ft_goals','ft_goals_conceded','shots', 'reds']
