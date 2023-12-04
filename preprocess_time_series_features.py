@@ -77,6 +77,10 @@ def preprocess_features_time_series(df_Serie_A, num_features):
             pattern = re.compile(rf'^home_{feature}_\d+$')
             if pattern.match(colonna):
                 Valid_dict_features[feature][colonna]=Valid_df[colonna]
+        for colonna in Valid_df.columns:
+            pattern = re.compile(rf'^away_{feature}_\d+$')
+            if pattern.match(colonna):
+                Valid_dict_features[feature][colonna]=Valid_df[colonna]
 
     # preprocess test dataframe
 
