@@ -7,30 +7,37 @@ import random
 import numpy as np
 import warnings
 import tensorflow as tf 
+from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import RandomOverSampler
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
 
-def preprocess_features_time_series(df_Serie_A, num_features):
-
-    X_train_df, X_test_df, Train_labels, Test_labels = train_test_split(df_stats_serie_A.drop(f'home_result', axis=1), df_stats_serie_A[f'home_result'],
-                                                                     test_size=0.05, random_state=42)
-
-    X_train_df, X_valid_df, Train_labels, Valid_labels = train_test_split(X_train_df, Train_labels, test_size=0.11, random_state=42)
-
-    Train_df = df_Serie_A.iloc[:int(len(df_Serie_A)*0.85)]
-    Valid_df = df_Serie_A.iloc[int(len(df_Serie_A)*0.85):int(len(df_Serie_A)*0.97)]
-    Test_df = df_Serie_A.iloc[int(len(df_Serie_A)*0.95):]
+def preprocess_features_time_series(df_Serie_A, num_features, random_state = True):
 
     all_features = ['ft_goals','ft_goals_conceded','shots','shots_target', 'fouls_done','corners_obtained', 'yellows', 'reds']
     less_features = ['ft_goals','ft_goals_conceded','shots', 'fouls_done','corners_obtained', 'reds']
     few_features = ['ft_goals','ft_goals_conceded','shots', 'reds']
 
+    if random_state:
+        Train_df, Test_df, Train_labels, Test_labels = train_test_split(df_Serie_A.drop('ft_result', axis=1), df_Serie_A['ft_result'],
+                                                                        test_size=0.05, random_state=42)
+
+        Train_df, Valid_df, Train_labels, Valid_labels = train_test_split(Train_df, Train_labels, test_size=0.11, random_state=42)
+
+    else:
+        Train_df = df_Serie_A.iloc[:int(len(df_Serie_A)*0.85)]
+        Valid_df = df_Serie_A.iloc[int(len(df_Serie_A)*0.85):int(len(df_Serie_A)*0.97)]
+        Test_df = df_Serie_A.iloc[int(len(df_Serie_A)*0.95):]
+
+        Train_labels = Train_df[['ft_result']]
+        Valid_labels = Valid_df[['ft_result']]
+        Test_labels = Test_df[['ft_result']]
+
+
     # preprocess Train dataframe
     Train_odds = Train_df[['home_win_odds','draw_odds','away_win_odds']]
     Train_teams = Train_df[['hometeam','awayteam']]
-    Train_labels = Train_df[['ft_result']]
 
     if num_features == 'all':
         features = all_features
@@ -58,7 +65,6 @@ def preprocess_features_time_series(df_Serie_A, num_features):
     #preprocess valid dataframe
     Valid_odds = Valid_df[['home_win_odds','draw_odds','away_win_odds']]
     Valid_teams = Valid_df[['hometeam','awayteam']]
-    Valid_labels = Valid_df[['ft_result']]
 
 
     if num_features == 'all':
@@ -88,7 +94,6 @@ def preprocess_features_time_series(df_Serie_A, num_features):
 
     Test_odds = Test_df[['home_win_odds','draw_odds','away_win_odds']]
     Test_teams = Test_df[['hometeam','awayteam']]
-    Test_labels = Test_df[['ft_result']]
 
     if num_features == 'all':
         features = all_features
