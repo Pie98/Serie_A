@@ -149,3 +149,43 @@ def preprocess_features_time_series(df_Serie_A, num_features):
     return (Train_teams_encoded, Valid_teams_encoded, Test_teams_encoded, Train_labels_encoded, Valid_labels_encoded, Test_labels_encoded, 
             Train_dict_features_norm, Valid_dict_features_norm, Test_dict_features_norm, Train_teams, Valid_teams, Test_teams, Train_labels, Valid_labels, Test_labels, 
             Train_dict_features, Valid_dict_features, Test_dict_features, Train_odds, Valid_odds, Test_odds)
+
+
+
+# -------------------------------------------#
+
+def create_fast_preprocessing_ts(Train_teams_encoded, Train_dict_features_norm, Train_labels_encoded,Valid_teams_encoded, Valid_dict_features_norm,
+                                 Valid_labels_encoded,Test_teams_encoded, Test_dict_features_norm,Test_labels_encoded ):
+    # fast preprocessing 
+    #creo un array con le features concatenate
+    Array_train_feature = Train_dict_features_norm[list(Train_dict_features_norm.keys())[0]]
+    for feature in list(Train_dict_features_norm.keys())[1:]:
+        Array_train_feature = np.concatenate((Array_train_feature, Train_dict_features_norm[feature]), axis=1)
+    #creo i fast preprocessing datasets
+    Dataset_train_norm = tf.data.Dataset.from_tensor_slices((Train_teams_encoded, Array_train_feature))
+    Train_labels_encoded = tf.data.Dataset.from_tensor_slices(Train_labels_encoded) # make labels
+    Dataset_train_norm = tf.data.Dataset.zip((Dataset_train_norm, Train_labels_encoded))
+
+    #creo un array con le features concatenate
+    Array_valid_feature = Valid_dict_features_norm[list(Valid_dict_features_norm.keys())[0]]
+    for feature in list(Valid_dict_features_norm.keys())[1:]:
+        Array_valid_feature = np.concatenate((Array_valid_feature, Valid_dict_features_norm[feature]), axis=1)
+    #creo i fast preprocessing datasets
+    Dataset_valid_norm = tf.data.Dataset.from_tensor_slices((Valid_teams_encoded, Array_valid_feature))
+    Valid_labels_encoded = tf.data.Dataset.from_tensor_slices(Valid_labels_encoded) # make labels
+    Dataset_valid_norm = tf.data.Dataset.zip((Dataset_valid_norm, Valid_labels_encoded))
+
+    #creo un array con le features concatenate
+    Array_test_feature = Test_dict_features_norm[list(Test_dict_features_norm.keys())[0]]
+    for feature in list(Test_dict_features_norm.keys())[1:]:
+        Array_test_feature = np.concatenate((Array_test_feature, Test_dict_features_norm[feature]), axis=1)
+    #creo i fast preprocessing datasets
+    Dataset_Test_norm = tf.data.Dataset.from_tensor_slices((Test_teams_encoded, Array_test_feature))
+    Test_labels_encoded = tf.data.Dataset.from_tensor_slices(Test_labels_encoded) # make labels
+    Dataset_Test_norm = tf.data.Dataset.zip((Dataset_Test_norm, Test_labels_encoded))
+
+    Dataset_train_norm = Dataset_train_norm.batch(32).prefetch(tf.data.AUTOTUNE) #Autotune è per dirgli di prefetchare tanti dati quanti può
+    Dataset_valid_norm = Dataset_valid_norm.batch(32).prefetch(tf.data.AUTOTUNE)
+    Dataset_Test_norm = Dataset_Test_norm.batch(32).prefetch(tf.data.AUTOTUNE)
+
+    return Dataset_train_norm, Dataset_valid_norm, Dataset_Test_norm
