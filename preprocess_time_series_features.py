@@ -43,11 +43,11 @@ def preprocess_features_time_series(df_Serie_A, num_features):
         for colonna in Train_df.columns:
             pattern = re.compile(rf'^home_{feature}_\d+$')
             if pattern.match(colonna):
-                Train_dict_features[feature][colonna]=Valid_df[colonna]
+                Train_dict_features[feature][colonna]=Train_df[colonna]
         for colonna in Train_df.columns:
             pattern = re.compile(rf'^away_{feature}_\d+$')
             if pattern.match(colonna):
-                Train_dict_features[feature][colonna]=Valid_df[colonna]
+                Train_dict_features[feature][colonna]=Train_df[colonna]
 
     #preprocess valid dataframe
     Valid_odds = Valid_df[['home_win_odds','draw_odds','away_win_odds']]
