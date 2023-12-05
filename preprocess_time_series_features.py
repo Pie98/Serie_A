@@ -13,6 +13,12 @@ from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
 
 def preprocess_features_time_series(df_Serie_A, num_features):
+
+    X_train_df, X_test_df, Train_labels, Test_labels = train_test_split(df_stats_serie_A.drop(f'home_result', axis=1), df_stats_serie_A[f'home_result'],
+                                                                     test_size=0.05, random_state=42)
+
+    X_train_df, X_valid_df, Train_labels, Valid_labels = train_test_split(X_train_df, Train_labels, test_size=0.11, random_state=42)
+
     Train_df = df_Serie_A.iloc[:int(len(df_Serie_A)*0.85)]
     Valid_df = df_Serie_A.iloc[int(len(df_Serie_A)*0.85):int(len(df_Serie_A)*0.97)]
     Test_df = df_Serie_A.iloc[int(len(df_Serie_A)*0.95):]
