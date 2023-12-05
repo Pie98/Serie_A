@@ -98,14 +98,14 @@ def preprocess_features_time_series(df_Serie_A, num_features):
 
     for feature in features:
         Test_dict_features[feature] = pd.DataFrame({})
-        for colonna in Valid_df.columns:
+        for colonna in Test_df.columns:
             pattern = re.compile(rf'^home_{feature}_\d+$')
             if pattern.match(colonna):
-                Test_dict_features[feature][colonna]=Valid_df[colonna]
-        for colonna in Valid_df.columns:
+                Test_dict_features[feature][colonna]=Test_df[colonna]
+        for colonna in Test_df.columns:
             pattern = re.compile(rf'^away_{feature}_\d+$')
             if pattern.match(colonna):
-                Test_dict_features[feature][colonna]=Valid_df[colonna]
+                Test_dict_features[feature][colonna]=Test_df[colonna]
 
     #encoding teams
     teams_transf = make_column_transformer(
