@@ -40,11 +40,11 @@ def preprocess_features_time_series(df_Serie_A, num_features):
 
     for feature in features:
         Train_dict_features[feature] = pd.DataFrame({})
-        for colonna in Valid_df.columns:
+        for colonna in Train_df.columns:
             pattern = re.compile(rf'^home_{feature}_\d+$')
             if pattern.match(colonna):
                 Train_dict_features[feature][colonna]=Valid_df[colonna]
-        for colonna in Valid_df.columns:
+        for colonna in Train_df.columns:
             pattern = re.compile(rf'^away_{feature}_\d+$')
             if pattern.match(colonna):
                 Train_dict_features[feature][colonna]=Valid_df[colonna]
@@ -66,10 +66,6 @@ def preprocess_features_time_series(df_Serie_A, num_features):
         features=few_features
 
     Valid_dict_features={}
-
-    def verifica_formato(parola):
-        pattern = re.compile(r'^parola_\d+$')
-        return bool(pattern.match(parola))
 
     for feature in features:
         Valid_dict_features[feature] = pd.DataFrame({})
