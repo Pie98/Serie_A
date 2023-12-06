@@ -21,9 +21,9 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
 
     if random_state:
         Train_df, Test_df, Train_labels, Test_labels = train_test_split(df_Serie_A.drop('ft_result', axis=1), df_Serie_A['ft_result'],
-                                                                        test_size=0.05, random_state=42)
+                                                                        test_size=0.02, random_state=42)
 
-        Train_df, Valid_df, Train_labels, Valid_labels = train_test_split(Train_df, Train_labels, test_size=0.11, random_state=42)
+        Train_df, Valid_df, Train_labels, Valid_labels = train_test_split(Train_df, Train_labels, test_size=0.15, random_state=42)
 
     else:
         Train_df = df_Serie_A.iloc[:int(len(df_Serie_A)*0.85)]
