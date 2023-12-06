@@ -112,4 +112,4 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
         name='model_1_dense_concat'
     )
 
-    return model_1_concat_layer
+    return model_1_final
