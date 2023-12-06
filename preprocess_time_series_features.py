@@ -130,16 +130,17 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
     Valid_teams_encoded = teams_transf.transform(Valid_teams)
     Test_teams_encoded = teams_transf.transform(Test_teams)
 
-    #encoding labels
-    label_transf = make_column_transformer(
-    (OneHotEncoder(handle_unknown='ignore'), ['ft_result']),
-    sparse_threshold=0  
-    )
+    if random_state == False:
+        #encoding labels
+        label_transf = make_column_transformer(
+        (OneHotEncoder(handle_unknown='ignore'), ['ft_result']),
+        sparse_threshold=0  
+        )
 
-    label_transf.fit(Train_labels)
-    Train_labels_encoded = label_transf.transform(Train_labels)
-    Valid_labels_encoded = label_transf.transform(Valid_labels)
-    Test_labels_encoded = label_transf.transform(Test_labels)
+        label_transf.fit(Train_labels)
+        Train_labels_encoded = label_transf.transform(Train_labels)
+        Valid_labels_encoded = label_transf.transform(Valid_labels)
+        Test_labels_encoded = label_transf.transform(Test_labels)
 
     #encoding numerical features
     Train_dict_features_norm = Train_dict_features.copy()
