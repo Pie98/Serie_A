@@ -112,12 +112,4 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
         name='model_1_dense_concat'
     )
 
-
-    #compilo il modelllo 
-    model_1_final.compile(
-        loss = 'categorical_crossentropy',
-        metrics = 'accuracy',
-        optimizer = tf.keras.optimizers.Adam()
-        )
-
     return model_1_concat_layer
