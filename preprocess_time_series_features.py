@@ -144,7 +144,7 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
 
     else:
         # Crea un OrdinalEncoder
-        ordinal_encoder = OneHotEncoder()
+        ordinal_encoder = OneHotEncoder(sparse=False)
         # Addestra l'OrdinalEncoder su Train_labels e applica la trasformazione
         Train_labels_encoded = ordinal_encoder.fit(np.array(Train_labels).reshape(-1, 1))
 
