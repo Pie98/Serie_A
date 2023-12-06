@@ -238,7 +238,7 @@ def preprocess_columns_with_odds(dataframe,numero_colonne,giorni_cumulativi, ove
     # Crea un OrdinalEncoder
     ordinal_encoder = OrdinalEncoder()
     # Addestra l'OrdinalEncoder su Train_labels e applica la trasformazione
-    Train_labels_encoded = ordinal_encoder.fit_transform(np.array(Train_labels).reshape(-1, 1))
+    Train_labels_encoded = ordinal_encoder.fit(np.array(Train_labels).reshape(-1, 1))
 
     Train_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Train_labels).reshape(-1, 1)))
     Valid_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Valid_labels).reshape(-1, 1)))
