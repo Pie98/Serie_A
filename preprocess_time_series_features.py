@@ -142,6 +142,16 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
         Valid_labels_encoded = label_transf.transform(Valid_labels)
         Test_labels_encoded = label_transf.transform(Test_labels)
 
+    else:
+        # Crea un OrdinalEncoder
+        ordinal_encoder = OneHotEncoder()
+        # Addestra l'OrdinalEncoder su Train_labels e applica la trasformazione
+        Train_labels_encoded = ordinal_encoder.fit(np.array(Train_labels).reshape(-1, 1))
+
+        Train_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Train_labels).reshape(-1, 1)))
+        Valid_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Valid_labels).reshape(-1, 1)))
+        Test_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Test_labels).reshape(-1, 1)))  
+
     #encoding numerical features
     Train_dict_features_norm = Train_dict_features.copy()
     Valid_dict_features_norm = Valid_dict_features.copy()
