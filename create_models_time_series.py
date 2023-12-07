@@ -73,7 +73,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
 
         #creo il modello  finale dei tiri
         model_1_shots_concat =tf.keras.Model(
-            inputs=[[ model_shots.input, model_shots_target.input, model_corners_obtained.output]],
+            inputs=[[ model_shots.input, model_shots_target.input, model_corners_obtained.input]],
             outputs=output_layer_shots_concat,
             name='model_1_shots_concat'
     )
