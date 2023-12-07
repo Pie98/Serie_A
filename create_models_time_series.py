@@ -67,14 +67,6 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
             name='model_1_shots_concat'
     )
 
-    # modello fouls_done
-    inputs = layers.Input(shape=(feature_input_shape,))
-    x = layers.Dense(32, activation='relu')(inputs)
-    x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
-    x = layers.Dense(16, activation='relu')(x)
-    outputs = layers.Dropout(second_dropout)(x) 
-    model_fouls_done = tf.keras.Model(inputs, outputs, name='model_1_fouls_done')
-
     # modello corners_obtained
     inputs = layers.Input(shape=(feature_input_shape,))
     x = layers.Dense(32, activation='relu')(inputs)
@@ -83,13 +75,22 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     outputs = layers.Dropout(second_dropout)(x) 
     model_corners_obtained = tf.keras.Model(inputs, outputs, name='model_1_corners_obtained')
 
-    # modello yellows
+    # modello fouls_done
     inputs = layers.Input(shape=(feature_input_shape,))
     x = layers.Dense(32, activation='relu')(inputs)
     x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
-    model_yellows = tf.keras.Model(inputs, outputs, name='model_1_corners_yellows')
+    model_fouls_done = tf.keras.Model(inputs, outputs, name='model_1_fouls_done')
+
+    if num_features == 'all':
+        # modello yellows
+        inputs = layers.Input(shape=(feature_input_shape,))
+        x = layers.Dense(32, activation='relu')(inputs)
+        x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
+        x = layers.Dense(16, activation='relu')(x)
+        outputs = layers.Dropout(second_dropout)(x) 
+        model_yellows = tf.keras.Model(inputs, outputs, name='model_1_corners_yellows')
 
     # modello reds
     inputs = layers.Input(shape=(feature_input_shape,))
@@ -99,10 +100,21 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     outputs = layers.Dropout(second_dropout)(x) 
     model_reds = tf.keras.Model(inputs, outputs, name='model_1_corners_reds')
 
+        #Unisco i modelli dei falli 
+    model_1_fouls_concat_layer = layers.Concatenate(name="fouls_concat")([model_fouls_done.output, model_yellows.output, model_reds.output])
+    output_layer_fouls_concat = layers.Dense(16, activation='relu')(model_1_fouls_concat_layer)
+
+    #creo il modello  finale dei falli
+    model_1_fouls_concat =tf.keras.Model(
+        inputs=[[ model_fouls_done.input, model_yellows.input, model_reds.input]],
+        outputs=output_layer_fouls_concat,
+        name='model_1_shots_concat' 
+    )
+
     #Unisco i modelli 
     model_1_concat_layer = layers.Concatenate(name="feature_concat")([ model_teams.output, model_ft_goals.output, model_ft_goals_conceded.output, 
-                                                            model_1_shots_concat.output, model_fouls_done.output, 
-                                                            model_corners_obtained.output, model_yellows.output, model_reds.output])
+                                                            model_1_shots_concat.output, model_1_fouls_concat.output, 
+                                                            model_corners_obtained.output])
     x = layers.Dense(64, activation='relu')(model_1_concat_layer)
     x = layers.Dropout(concat_dropout_1)(x)
     x = layers.Dense(32, activation='relu')(x)
