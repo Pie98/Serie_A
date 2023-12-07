@@ -67,7 +67,9 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
         #Unisco i modelli dei tiri 
         model_1_shots_concat_layer = layers.Concatenate(name="shots_concat")([model_shots.output, model_shots_target.output,
                                                                                model_corners_obtained.output])
-        output_layer_shots_concat = layers.Dense(16, activation='relu')(model_1_shots_concat_layer)
+        x = layers.Dense(64, activation='relu')(model_1_shots_concat_layer)
+        x = layers.Dropout(concat_dropout_1)(x)  # Aggiunto il layer di dropout per ridurre overfitting
+        output_layer_shots_concat = layers.Dense(32, activation='relu')(x)
 
         #creo il modello  finale dei tiri
         model_1_shots_concat =tf.keras.Model(
@@ -104,7 +106,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     if num_features == 'all':
             #Unisco i modelli dei falli 
         model_1_fouls_concat_layer = layers.Concatenate(name="fouls_concat")([model_fouls_done.output, model_yellows.output, model_reds.output])
-        x =     x = layers.Dense(64, activation='relu')(model_1_fouls_concat_layer)
+        x = layers.Dense(64, activation='relu')(model_1_fouls_concat_layer)
         x = layers.Dropout(concat_dropout_1)(x)  # Aggiunto il layer di dropout per ridurre overfitting
         output_layer_fouls_concat = layers.Dense(32, activation='relu')(x)
 
