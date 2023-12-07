@@ -100,16 +100,17 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     outputs = layers.Dropout(second_dropout)(x) 
     model_reds = tf.keras.Model(inputs, outputs, name='model_1_corners_reds')
 
-        #Unisco i modelli dei falli 
-    model_1_fouls_concat_layer = layers.Concatenate(name="fouls_concat")([model_fouls_done.output, model_yellows.output, model_reds.output])
-    output_layer_fouls_concat = layers.Dense(16, activation='relu')(model_1_fouls_concat_layer)
+    if num_features == 'all':
+            #Unisco i modelli dei falli 
+        model_1_fouls_concat_layer = layers.Concatenate(name="fouls_concat")([model_fouls_done.output, model_yellows.output, model_reds.output])
+        output_layer_fouls_concat = layers.Dense(16, activation='relu')(model_1_fouls_concat_layer)
 
-    #creo il modello  finale dei falli
-    model_1_fouls_concat =tf.keras.Model(
-        inputs=[[ model_fouls_done.input, model_yellows.input, model_reds.input]],
-        outputs=output_layer_fouls_concat,
-        name='model_1_shots_concat' 
-    )
+        #creo il modello  finale dei falli
+        model_1_fouls_concat =tf.keras.Model(
+            inputs=[[ model_fouls_done.input, model_yellows.input, model_reds.input]],
+            outputs=output_layer_fouls_concat,
+            name='model_1_shots_concat' 
+        )
 
     #Unisco i modelli 
     model_1_concat_layer = layers.Concatenate(name="feature_concat")([ model_teams.output, model_ft_goals.output, model_ft_goals_conceded.output, 
