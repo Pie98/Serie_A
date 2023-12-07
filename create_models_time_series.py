@@ -146,15 +146,25 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
             name='model_1_shots_concat' 
         )
 
+    if ((num_features == 'all') | (num_features=='less')):
+        #Unisco i modelli 
+        model_1_concat_layer = layers.Concatenate(name="feature_concat")([ model_teams.output, model_ft_goals.output, model_ft_goals_conceded.output, 
+                                                                model_1_shots_concat.output, model_1_fouls_concat.output])
+        x = layers.Dense(64, activation='relu')(model_1_concat_layer)
+        x = layers.Dropout(concat_dropout_1)(x)
+        x = layers.Dense(32, activation='relu')(x)
+        x = layers.Dropout(concat_dropout_2)(x)
+        output_layer = layers.Dense(3, activation = 'softmax')(x)
 
-    #Unisco i modelli 
-    model_1_concat_layer = layers.Concatenate(name="feature_concat")([ model_teams.output, model_ft_goals.output, model_ft_goals_conceded.output, 
-                                                            model_1_shots_concat.output, model_1_fouls_concat.output])
-    x = layers.Dense(64, activation='relu')(model_1_concat_layer)
-    x = layers.Dropout(concat_dropout_1)(x)
-    x = layers.Dense(32, activation='relu')(x)
-    x = layers.Dropout(concat_dropout_2)(x)
-    output_layer = layers.Dense(3, activation = 'softmax')(x)
+    else:
+        #Unisco i modelli 
+        model_1_concat_layer = layers.Concatenate(name="feature_concat")([ model_teams.output, model_ft_goals.output, model_ft_goals_conceded.output, 
+                                                                model_shots.output, model_reds.output])
+        x = layers.Dense(64, activation='relu')(model_1_concat_layer)
+        x = layers.Dropout(concat_dropout_1)(x)
+        x = layers.Dense(32, activation='relu')(x)
+        x = layers.Dropout(concat_dropout_2)(x)
+        output_layer = layers.Dense(3, activation = 'softmax')(x)
 
 
     #creo il modello  finale
@@ -170,6 +180,13 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
         model_1_final =tf.keras.Model(
             inputs=[[model_teams.input, model_ft_goals.input, model_ft_goals_conceded.input, model_shots.input, model_fouls_done.input, 
                         model_corners_obtained.input, model_reds.input]],
+            outputs=output_layer,
+            name='model_1_dense_concat'
+        )
+    
+    if num_features == 'few':
+        model_1_final =tf.keras.Model(
+            inputs=[[model_teams.input, model_ft_goals.input, model_ft_goals_conceded.input, model_shots.input, model_reds.input]],
             outputs=output_layer,
             name='model_1_dense_concat'
         )
