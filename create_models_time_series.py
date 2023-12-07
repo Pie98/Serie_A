@@ -207,14 +207,14 @@ def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_
     #Modello per i teams 
     inputs = layers.Input(shape=(Train_teams_shape,), name='teams_input')
     x = layers.Reshape((Train_teams_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.LSTM(num_filters*2, activation='relu')(x)
+    x = layers.LSTM(num_filters*2, activation='linear')(x)
     outputs = layers.Dense(32)(x)
     model_teams = tf.keras.Model(inputs,outputs, name = 'model_1_teams')
 
     # modello ft_goals
     inputs = layers.Input(shape=(feature_input_shape,), name='goals_input')
     x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.LSTM(num_filters, activation='relu')(x)
+    x = layers.LSTM(num_filters, activation='linear')(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_ft_goals = tf.keras.Model(inputs, outputs, name='model_1_goals')
@@ -222,7 +222,7 @@ def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_
     # modello ft_goals_conceded
     inputs = layers.Input(shape=(feature_input_shape,), name='goals_conceded_input')
     x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.LSTM(num_filters, activation='relu')(x)
+    x = layers.LSTM(num_filters, activation='linear')(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_ft_goals_conceded = tf.keras.Model(inputs, outputs, name='ft_goals_conceded')
@@ -230,7 +230,7 @@ def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_
     # modello shots
     inputs = layers.Input(shape=(feature_input_shape,), name='shotss_input')
     x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.LSTM(num_filters, activation='relu')(x)
+    x = layers.LSTM(num_filters, activation='linear')(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_shots = tf.keras.Model(inputs, outputs, name='model_1_shots')
@@ -238,7 +238,7 @@ def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_
     # modello corners_obtained
     inputs = layers.Input(shape=(feature_input_shape,), name='corners_input')
     x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.LSTM(num_filters, activation='relu')(x)
+    x = layers.LSTM(num_filters, activation='linear')(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_corners_obtained = tf.keras.Model(inputs, outputs, name='model_1_corners_obtained')
@@ -248,7 +248,7 @@ def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_
         # modello shots_target
         inputs = layers.Input(shape=(feature_input_shape,), name='shots_target_input')
         x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-        x = layers.LSTM(num_filters, activation='relu')(x)
+        x = layers.LSTM(num_filters, activation='linear')(x)
         x = layers.Dense(16, activation='relu')(x)
         outputs = layers.Dropout(second_dropout)(x) 
         model_shots_target = tf.keras.Model(inputs, outputs, name='model_1_shots_target')
@@ -285,7 +285,7 @@ def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_
     # modello fouls_done
     inputs = layers.Input(shape=(feature_input_shape,), name='fouls_input')
     x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.LSTM(num_filters, activation='relu')(x)
+    x = layers.LSTM(num_filters, activation='linear')(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_fouls_done = tf.keras.Model(inputs, outputs, name='model_1_fouls_done')
@@ -294,7 +294,7 @@ def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_
         # modello yellows
         inputs = layers.Input(shape=(feature_input_shape,), name='yellows_input')
         x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-        x = layers.LSTM(num_filters, activation='relu')(x)
+        x = layers.LSTM(num_filters, activation='linear')(x)
         x = layers.Dense(16, activation='relu')(x)
         outputs = layers.Dropout(second_dropout)(x) 
         model_yellows = tf.keras.Model(inputs, outputs, name='model_1_corners_yellows')
@@ -302,7 +302,7 @@ def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_
     # modello reds
     inputs = layers.Input(shape=(feature_input_shape,), name='reds_input')
     x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.LSTM(num_filters, activation='relu')(x)
+    x = layers.LSTM(num_filters, activation='linear')(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_reds = tf.keras.Model(inputs, outputs, name='model_1_corners_reds')
