@@ -16,14 +16,14 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
                                    second_dropout,concat_dropout_1,concat_dropout_2, num_features ):
 
     #Modello per i teams 
-    inputs = layers.Input(shape=(Train_teams_shape,))
+    inputs = layers.Input(shape=(Train_teams_shape,), name='teams_input')
     x = layers.Dense(16, activation = 'relu')(inputs)
     x = layers.Dropout(first_dropout)(x)
     outputs = layers.Dense(8)(x)
     model_teams = tf.keras.Model(inputs,outputs, name = 'model_1_teams')
 
     # modello ft_goals
-    inputs = layers.Input(shape=(feature_input_shape,))
+    inputs = layers.Input(shape=(feature_input_shape,), name='goals_input')
     x = layers.Dense(32, activation='relu')(inputs)
     x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
     x = layers.Dense(16, activation='relu')(x)
@@ -31,7 +31,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     model_ft_goals = tf.keras.Model(inputs, outputs, name='model_1_goals')
 
     # modello ft_goals_conceded
-    inputs = layers.Input(shape=(feature_input_shape,))
+    inputs = layers.Input(shape=(feature_input_shape,), name='goals_conceded_input')
     x = layers.Dense(32, activation='relu')(inputs)
     x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
     x = layers.Dense(16, activation='relu')(x)
@@ -39,7 +39,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     model_ft_goals_conceded = tf.keras.Model(inputs, outputs, name='ft_goals_conceded')
 
     # modello shots
-    inputs = layers.Input(shape=(feature_input_shape,))
+    inputs = layers.Input(shape=(feature_input_shape,), name='shotss_input')
     x = layers.Dense(32, activation='relu')(inputs)
     x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
     x = layers.Dense(16, activation='relu')(x)
@@ -49,7 +49,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     # se considero tutte le features inserisco anche gli shots on target
     if num_features == 'all':
         # modello shots_target
-        inputs = layers.Input(shape=(feature_input_shape,))
+        inputs = layers.Input(shape=(feature_input_shape,), name='shots_target_input')
         x = layers.Dense(32, activation='relu')(inputs)
         x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
         x = layers.Dense(16, activation='relu')(x)
@@ -68,7 +68,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     )
 
     # modello corners_obtained
-    inputs = layers.Input(shape=(feature_input_shape,))
+    inputs = layers.Input(shape=(feature_input_shape,), name='corners_input')
     x = layers.Dense(32, activation='relu')(inputs)
     x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
     x = layers.Dense(16, activation='relu')(x)
@@ -76,7 +76,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     model_corners_obtained = tf.keras.Model(inputs, outputs, name='model_1_corners_obtained')
 
     # modello fouls_done
-    inputs = layers.Input(shape=(feature_input_shape,))
+    inputs = layers.Input(shape=(feature_input_shape,), name='fouls_input')
     x = layers.Dense(32, activation='relu')(inputs)
     x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
     x = layers.Dense(16, activation='relu')(x)
@@ -85,7 +85,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
 
     if num_features == 'all':
         # modello yellows
-        inputs = layers.Input(shape=(feature_input_shape,))
+        inputs = layers.Input(shape=(feature_input_shape,), name='yellows_input')
         x = layers.Dense(32, activation='relu')(inputs)
         x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
         x = layers.Dense(16, activation='relu')(x)
@@ -93,7 +93,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
         model_yellows = tf.keras.Model(inputs, outputs, name='model_1_corners_yellows')
 
     # modello reds
-    inputs = layers.Input(shape=(feature_input_shape,))
+    inputs = layers.Input(shape=(feature_input_shape,), name='reds_input')
     x = layers.Dense(32, activation='relu')(inputs)
     x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
     x = layers.Dense(16, activation='relu')(x)
