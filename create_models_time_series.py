@@ -54,7 +54,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     outputs = layers.Dropout(second_dropout)(x) 
     model_corners_obtained = tf.keras.Model(inputs, outputs, name='model_1_corners_obtained')
 
-    # se considero tutte le features inserisco anche gli shots on target
+    # se considero tutte le features inserisco anche gli shots on target e corner
     if num_features == 'all':
         # modello shots_target
         inputs = layers.Input(shape=(feature_input_shape,), name='shots_target_input')
