@@ -202,43 +202,43 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
 
 
 def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_dropout, 
-                                   second_dropout,concat_dropout_1,concat_dropout_2, num_filters, kernel_size, num_features ):
+                                   second_dropout,concat_dropout_1,concat_dropout_2, num_filters, num_features ):
 
     #Modello per i teams 
     inputs = layers.Input(shape=(Train_teams_shape,), name='teams_input')
     x = layers.Reshape((Train_teams_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.Conv1D(filters=num_filters, kernel_size=kernel_size, activation='relu')(x)
+    x = layers.LSTM(num_filters, activation='relu')(x)
     outputs = layers.Dense(8)(x)
     model_teams = tf.keras.Model(inputs,outputs, name = 'model_1_teams')
 
     # modello ft_goals
     inputs = layers.Input(shape=(feature_input_shape,), name='goals_input')
-    x = layers.Dense(32, activation='relu')(inputs)
-    x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
+    x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
+    x = layers.LSTM(num_filters, activation='relu')(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_ft_goals = tf.keras.Model(inputs, outputs, name='model_1_goals')
 
     # modello ft_goals_conceded
     inputs = layers.Input(shape=(feature_input_shape,), name='goals_conceded_input')
-    x = layers.Dense(32, activation='relu')(inputs)
-    x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
+    x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
+    x = layers.LSTM(num_filters, activation='relu')(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_ft_goals_conceded = tf.keras.Model(inputs, outputs, name='ft_goals_conceded')
 
     # modello shots
     inputs = layers.Input(shape=(feature_input_shape,), name='shotss_input')
-    x = layers.Dense(32, activation='relu')(inputs)
-    x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
+    x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
+    x = layers.LSTM(num_filters, activation='relu')(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_shots = tf.keras.Model(inputs, outputs, name='model_1_shots')
 
     # modello corners_obtained
     inputs = layers.Input(shape=(feature_input_shape,), name='corners_input')
-    x = layers.Dense(32, activation='relu')(inputs)
-    x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
+    x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
+    x = layers.LSTM(num_filters, activation='relu')(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_corners_obtained = tf.keras.Model(inputs, outputs, name='model_1_corners_obtained')
@@ -247,8 +247,8 @@ def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_
     if num_features == 'all':
         # modello shots_target
         inputs = layers.Input(shape=(feature_input_shape,), name='shots_target_input')
-        x = layers.Dense(32, activation='relu')(inputs)
-        x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
+        x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
+        x = layers.LSTM(num_filters, activation='relu')(x)
         x = layers.Dense(16, activation='relu')(x)
         outputs = layers.Dropout(second_dropout)(x) 
         model_shots_target = tf.keras.Model(inputs, outputs, name='model_1_shots_target')
@@ -284,8 +284,8 @@ def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_
 
     # modello fouls_done
     inputs = layers.Input(shape=(feature_input_shape,), name='fouls_input')
-    x = layers.Dense(32, activation='relu')(inputs)
-    x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
+    x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
+    x = layers.LSTM(num_filters, activation='relu')(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_fouls_done = tf.keras.Model(inputs, outputs, name='model_1_fouls_done')
@@ -293,16 +293,16 @@ def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_
     if num_features == 'all':
         # modello yellows
         inputs = layers.Input(shape=(feature_input_shape,), name='yellows_input')
-        x = layers.Dense(32, activation='relu')(inputs)
-        x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
+        x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
+        x = layers.LSTM(num_filters, activation='relu')(x)
         x = layers.Dense(16, activation='relu')(x)
         outputs = layers.Dropout(second_dropout)(x) 
         model_yellows = tf.keras.Model(inputs, outputs, name='model_1_corners_yellows')
 
     # modello reds
     inputs = layers.Input(shape=(feature_input_shape,), name='reds_input')
-    x = layers.Dense(32, activation='relu')(inputs)
-    x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
+    x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
+    x = layers.LSTM(num_filters, activation='relu')(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_reds = tf.keras.Model(inputs, outputs, name='model_1_corners_reds')
