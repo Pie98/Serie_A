@@ -12,7 +12,9 @@ from sklearn.compose import make_column_transformer
 from tensorflow.keras import layers
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
-def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first_dropout, second_dropout,concat_dropout_1,concat_dropout_2 ):
+def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first_dropout, 
+                                   second_dropout,concat_dropout_1,concat_dropout_2, num_features ):
+
     #Modello per i teams 
     inputs = layers.Input(shape=(Train_teams_shape,))
     x = layers.Dense(16, activation = 'relu')(inputs)
@@ -43,23 +45,25 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     outputs = layers.Dropout(second_dropout)(x) 
     model_shots = tf.keras.Model(inputs, outputs, name='model_1_shots')
 
-    # modello shots_target
-    inputs = layers.Input(shape=(feature_input_shape,))
-    x = layers.Dense(32, activation='relu')(inputs)
-    x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
-    x = layers.Dense(16, activation='relu')(x)
-    outputs = layers.Dropout(second_dropout)(x) 
-    model_shots_target = tf.keras.Model(inputs, outputs, name='model_1_shots_target')
+    # se considero tutte le features inserisco anche gli shots on target
+    if num_features == 'all':
+        # modello shots_target
+        inputs = layers.Input(shape=(feature_input_shape,))
+        x = layers.Dense(32, activation='relu')(inputs)
+        x = layers.Dropout(first_dropout)(x)  # Aggiunto il layer di dropout per ridurre overfitting
+        x = layers.Dense(16, activation='relu')(x)
+        outputs = layers.Dropout(second_dropout)(x) 
+        model_shots_target = tf.keras.Model(inputs, outputs, name='model_1_shots_target')
 
-    #Unisco i modelli dei tiri 
-    model_1_shots_concat_layer = layers.Concatenate(name="shots_concat")([model_shots.output, model_shots_target.output])
-    output_layer_shots_concat = layers.Dense(16, activation='relu')(model_1_shots_concat_layer)
+        #Unisco i modelli dei tiri 
+        model_1_shots_concat_layer = layers.Concatenate(name="shots_concat")([model_shots.output, model_shots_target.output])
+        output_layer_shots_concat = layers.Dense(16, activation='relu')(model_1_shots_concat_layer)
 
-    #creo il modello  finale
-    model_1_shots_concat =tf.keras.Model(
-        inputs=[[ model_shots.input, model_shots_target.input]],
-        outputs=output_layer_shots_concat,
-        name='model_1_shots_concat'
+        #creo il modello  finale dei tiri
+        model_1_shots_concat =tf.keras.Model(
+            inputs=[[ model_shots.input, model_shots_target.input]],
+            outputs=output_layer_shots_concat,
+            name='model_1_shots_concat'
     )
 
     # modello fouls_done
@@ -95,7 +99,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     model_reds = tf.keras.Model(inputs, outputs, name='model_1_corners_reds')
 
     #Unisco i modelli 
-    model_1_concat_layer = layers.Concatenate(name="feature_concat")([ model_ft_goals.output, model_ft_goals_conceded.output, 
+    model_1_concat_layer = layers.Concatenate(name="feature_concat")([ model_teams.input, model_ft_goals.output, model_ft_goals_conceded.output, 
                                                             model_1_shots_concat.output, model_fouls_done.output, 
                                                             model_corners_obtained.output, model_yellows.output, model_reds.output])
     x = layers.Dense(64, activation='relu')(model_1_concat_layer)
@@ -106,7 +110,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
 
     #creo il modello  finale
     model_1_final =tf.keras.Model(
-        inputs=[[ model_ft_goals.input, model_ft_goals_conceded.input, model_shots.input, model_shots_target.input, model_fouls_done.input, 
+        inputs=[[model_teams.input, model_ft_goals.input, model_ft_goals_conceded.input, model_shots.input, model_shots_target.input, model_fouls_done.input, 
                     model_corners_obtained.input, model_yellows.input, model_reds.input]],
         outputs=output_layer,
         name='model_1_dense_concat'
