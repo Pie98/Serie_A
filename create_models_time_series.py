@@ -207,8 +207,8 @@ def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_
     #Modello per i teams 
     inputs = layers.Input(shape=(Train_teams_shape,), name='teams_input')
     x = layers.Reshape((Train_teams_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.LSTM(num_filters, activation='relu')(x)
-    outputs = layers.Dense(8)(x)
+    x = layers.LSTM(num_filters*2, activation='relu')(x)
+    outputs = layers.Dense(32)(x)
     model_teams = tf.keras.Model(inputs,outputs, name = 'model_1_teams')
 
     # modello ft_goals
