@@ -179,24 +179,24 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
 def create_fast_preprocessing_ts(Train_teams_encoded, Train_dict_features_norm, Train_labels_encoded,Valid_teams_encoded, Valid_dict_features_norm,
                                  Valid_labels_encoded,Test_teams_encoded, Test_dict_features_norm,Test_labels_encoded ):
     #creo i fast preprocessing datasets
-    Dataset_train_norm = tf.data.Dataset.from_tensor_slices(Train_dict_features_norm[list(Train_dict_features_norm.keys())[0]])
-    for feature in list(Train_dict_features_norm.keys())[1:]:
+    Dataset_train_norm = tf.data.Dataset.from_tensor_slices(Train_teams_encoded)
+    for feature in list(Train_dict_features_norm.keys()):
         temp_dataset = tf.data.Dataset.from_tensor_slices(Train_dict_features_norm[feature])
         Dataset_train_norm = tf.data.Dataset.zip((Dataset_train_norm, temp_dataset))
     Train_labels_encoded = tf.data.Dataset.from_tensor_slices(Train_labels_encoded) # make labels
     Dataset_train_norm = tf.data.Dataset.zip((Dataset_train_norm, Train_labels_encoded))
 
     #creo un array con le features concatenate
-    Dataset_Valid_norm = tf.data.Dataset.from_tensor_slices(Valid_dict_features_norm[list(Valid_dict_features_norm.keys())[0]])
-    for feature in list(Valid_dict_features_norm.keys())[1:]:
+    Dataset_Valid_norm = tf.data.Dataset.from_tensor_slices(Valid_teams_encoded)
+    for feature in list(Valid_dict_features_norm.keys()):
         temp_dataset = tf.data.Dataset.from_tensor_slices(Valid_dict_features_norm[feature])
         Dataset_Valid_norm = tf.data.Dataset.zip((Dataset_Valid_norm, temp_dataset))
     Valid_labels_encoded = tf.data.Dataset.from_tensor_slices(Valid_labels_encoded) # make labels
     Dataset_Valid_norm = tf.data.Dataset.zip((Dataset_Valid_norm, Valid_labels_encoded))
 
     #creo un array con le features concatenate
-    Dataset_Test_norm = tf.data.Dataset.from_tensor_slices(Test_dict_features_norm[list(Test_dict_features_norm.keys())[0]])
-    for feature in list(Test_dict_features_norm.keys())[1:]:
+    Dataset_Test_norm = tf.data.Dataset.from_tensor_slices(Test_teams_encoded)
+    for feature in list(Test_dict_features_norm.keys()):
         temp_dataset = tf.data.Dataset.from_tensor_slices(Test_dict_features_norm[feature])
         Dataset_Test_norm = tf.data.Dataset.zip((Dataset_Test_norm, temp_dataset))
     Test_labels_encoded = tf.data.Dataset.from_tensor_slices(Test_labels_encoded) # make labels
