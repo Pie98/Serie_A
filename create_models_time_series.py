@@ -18,6 +18,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     #Modello per i teams 
     inputs = layers.Input(shape=(Train_teams_shape,))
     x = layers.Dense(16, activation = 'relu')(inputs)
+    x = layers.Dropout(first_dropout)(x)
     outputs = layers.Dense(8)(x)
     model_teams = tf.keras.Model(inputs,outputs, name = 'model_1_teams')
 
