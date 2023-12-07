@@ -99,7 +99,7 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     model_reds = tf.keras.Model(inputs, outputs, name='model_1_corners_reds')
 
     #Unisco i modelli 
-    model_1_concat_layer = layers.Concatenate(name="feature_concat")([ model_teams.input, model_ft_goals.output, model_ft_goals_conceded.output, 
+    model_1_concat_layer = layers.Concatenate(name="feature_concat")([ model_teams.output, model_ft_goals.output, model_ft_goals_conceded.output, 
                                                             model_1_shots_concat.output, model_fouls_done.output, 
                                                             model_corners_obtained.output, model_yellows.output, model_reds.output])
     x = layers.Dense(64, activation='relu')(model_1_concat_layer)
