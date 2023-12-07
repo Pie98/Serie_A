@@ -21,9 +21,9 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
 
     if random_state:
         Train_df, Test_df, Train_labels, Test_labels = train_test_split(df_Serie_A.drop('ft_result', axis=1), df_Serie_A['ft_result'],
-                                                                        test_size=0.02, random_state=42)
+                                                                        test_size=0.03, random_state=40)
 
-        Train_df, Valid_df, Train_labels, Valid_labels = train_test_split(Train_df, Train_labels, test_size=0.15, random_state=42)
+        Train_df, Valid_df, Train_labels, Valid_labels = train_test_split(Train_df, Train_labels, test_size=0.13, random_state=40)
 
     else:
         Train_df = df_Serie_A.iloc[:int(len(df_Serie_A)*0.85)]
@@ -37,7 +37,7 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
 
     # preprocess Train dataframe
     Train_odds = Train_df[['home_win_odds','draw_odds','away_win_odds']]
-    Train_teams = Train_df[['hometeam','awayteam']]
+    Train_teams = Train_df[['season','hometeam','awayteam']]
 
     if num_features == 'all':
         features = all_features
@@ -64,7 +64,7 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
 
     #preprocess valid dataframe
     Valid_odds = Valid_df[['home_win_odds','draw_odds','away_win_odds']]
-    Valid_teams = Valid_df[['hometeam','awayteam']]
+    Valid_teams = Valid_df[['season','hometeam','awayteam']]
 
 
     if num_features == 'all':
@@ -93,7 +93,7 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
     # preprocess test dataframe
 
     Test_odds = Test_df[['home_win_odds','draw_odds','away_win_odds']]
-    Test_teams = Test_df[['hometeam','awayteam']]
+    Test_teams = Test_df[['season','hometeam','awayteam']]
 
     if num_features == 'all':
         features = all_features
