@@ -37,7 +37,7 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
 
     # preprocess Train dataframe
     Train_odds = Train_df[['home_win_odds','draw_odds','away_win_odds']]
-    Train_teams = Train_df[['season','hometeam','awayteam']]
+    Train_teams = Train_df[['stagione','hometeam','awayteam']]
 
     if num_features == 'all':
         features = all_features
@@ -64,7 +64,7 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
 
     #preprocess valid dataframe
     Valid_odds = Valid_df[['home_win_odds','draw_odds','away_win_odds']]
-    Valid_teams = Valid_df[['season','hometeam','awayteam']]
+    Valid_teams = Valid_df[['stagione','hometeam','awayteam']]
 
 
     if num_features == 'all':
@@ -93,7 +93,7 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
     # preprocess test dataframe
 
     Test_odds = Test_df[['home_win_odds','draw_odds','away_win_odds']]
-    Test_teams = Test_df[['season','hometeam','awayteam']]
+    Test_teams = Test_df[['stagione','hometeam','awayteam']]
 
     if num_features == 'all':
         features = all_features
