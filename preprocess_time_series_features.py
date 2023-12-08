@@ -36,7 +36,6 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
 
 
     # preprocess Train dataframe
-    Train_odds = Train_df[['home_win_odds','draw_odds','away_win_odds']]
     Train_teams = Train_df[['stagione','hometeam','awayteam']]
 
     if num_features == 'all':
@@ -63,7 +62,6 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
                 Train_dict_features[feature][colonna]=Train_df[colonna]
 
     #preprocess valid dataframe
-    Valid_odds = Valid_df[['home_win_odds','draw_odds','away_win_odds']]
     Valid_teams = Valid_df[['stagione','hometeam','awayteam']]
 
 
@@ -91,8 +89,6 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
                 Valid_dict_features[feature][colonna]=Valid_df[colonna]
 
     # preprocess test dataframe
-
-    Test_odds = Test_df[['home_win_odds','draw_odds','away_win_odds']]
     Test_teams = Test_df[['stagione','hometeam','awayteam']]
 
     if num_features == 'all':
@@ -170,7 +166,7 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
 
     return (Train_teams_encoded, Valid_teams_encoded, Test_teams_encoded, Train_labels_encoded, Valid_labels_encoded, Test_labels_encoded, 
             Train_dict_features_norm, Valid_dict_features_norm, Test_dict_features_norm, Train_teams, Valid_teams, Test_teams, Train_labels, Valid_labels, Test_labels, 
-            Train_dict_features, Valid_dict_features, Test_dict_features, Train_odds, Valid_odds, Test_odds)
+            Train_dict_features, Valid_dict_features, Test_dict_features, Train_df, Valid_df, Test_df)
 
 
 
