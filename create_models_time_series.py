@@ -201,11 +201,11 @@ def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first
     return model_1_final
 
 
-##################################################
+#################################################
 
 # --------------- LSTM  model ---------------- #
 
-##################################################
+#################################################
 
 
 def create_time_series_model_lstm(Train_teams_shape, feature_input_shape, first_dropout, 
