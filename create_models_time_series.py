@@ -13,9 +13,9 @@ from tensorflow.keras import layers
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
 
-#################################################
+################################################
 
-# --------------- Dense  model ---------------- #
+# --------------- Dense  model ----------------#
 
 ################################################
 
