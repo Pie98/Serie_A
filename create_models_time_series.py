@@ -12,11 +12,13 @@ from sklearn.compose import make_column_transformer
 from tensorflow.keras import layers
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
+
 #################################################
 
 # --------------- Dense  model ---------------- #
 
 ################################################
+
 
 def create_time_series_model_dense(Train_teams_shape, feature_input_shape, first_dropout, 
                                    second_dropout,concat_dropout_1,concat_dropout_2, num_features ):
