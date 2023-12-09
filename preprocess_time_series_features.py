@@ -194,26 +194,26 @@ def create_fast_preprocessing_ts(Train_teams_encoded, Train_dict_features_norm, 
     Dataset_train_norm = tf.data.Dataset.zip((Dataset_train_norm, Train_labels_encoded))
 
     #creo un array con le features concatenate
-    Dataset_Valid_norm = tf.data.Dataset.from_tensor_slices(Valid_teams_encoded)
+    Dataset_valid_norm = tf.data.Dataset.from_tensor_slices(Valid_teams_encoded)
     for feature in list(Valid_dict_features_norm.keys()):
         temp_dataset = tf.data.Dataset.from_tensor_slices(Valid_dict_features_norm[feature])
-        Dataset_Valid_norm = tf.data.Dataset.zip((Dataset_Valid_norm, temp_dataset))
+        Dataset_valid_norm = tf.data.Dataset.zip((Dataset_valid_norm, temp_dataset))
     Valid_labels_encoded = tf.data.Dataset.from_tensor_slices(Valid_labels_encoded) # make labels
-    Dataset_Valid_norm = tf.data.Dataset.zip((Dataset_Valid_norm, Valid_labels_encoded))
+    Dataset_valid_norm = tf.data.Dataset.zip((Dataset_valid_norm, Valid_labels_encoded))
 
     #creo un array con le features concatenate
-    Dataset_Test_norm = tf.data.Dataset.from_tensor_slices(Test_teams_encoded)
+    Dataset_test_norm = tf.data.Dataset.from_tensor_slices(Test_teams_encoded)
     for feature in list(Test_dict_features_norm.keys()):
         temp_dataset = tf.data.Dataset.from_tensor_slices(Test_dict_features_norm[feature])
-        Dataset_Test_norm = tf.data.Dataset.zip((Dataset_Test_norm, temp_dataset))
+        Dataset_test_norm = tf.data.Dataset.zip((Dataset_test_norm, temp_dataset))
     Test_labels_encoded = tf.data.Dataset.from_tensor_slices(Test_labels_encoded) # make labels
-    Dataset_Test_norm = tf.data.Dataset.zip((Dataset_Test_norm, Test_labels_encoded))
+    Dataset_test_norm = tf.data.Dataset.zip((Dataset_test_norm, Test_labels_encoded))
 
     Dataset_train_norm = Dataset_train_norm.batch(32).prefetch(tf.data.AUTOTUNE) #Autotune è per dirgli di prefetchare tanti dati quanti può
-    Dataset_valid_norm = Dataset_Valid_norm.batch(32).prefetch(tf.data.AUTOTUNE)
-    Dataset_Test_norm = Dataset_Test_norm.batch(32).prefetch(tf.data.AUTOTUNE)
+    Dataset_valid_norm = Dataset_valid_norm.batch(32).prefetch(tf.data.AUTOTUNE)
+    Dataset_test_norm = Dataset_test_norm.batch(32).prefetch(tf.data.AUTOTUNE)
 
-    return Dataset_train_norm, Dataset_valid_norm, Dataset_Test_norm
+    return Dataset_train_norm, Dataset_valid_norm, Dataset_test_norm
 
 
 ##################################################################
@@ -404,7 +404,7 @@ def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state 
 def create_fast_preprocessing_ts_odds(Train_teams_encoded, Train_dict_features_norm, Train_labels_encoded,Valid_teams_encoded, Valid_dict_features_norm,
                                  Valid_labels_encoded,Test_teams_encoded, Test_dict_features_norm,Test_labels_encoded, Train_odds_norm,
                                   Valid_odds_norm, Test_odds_norm ):
-    #creo i fast preprocessing datasets
+    #train
     Dataset_train_norm = tf.data.Dataset.from_tensor_slices(Train_teams_encoded)
     for feature in list(Train_dict_features_norm.keys()):
         temp_dataset = tf.data.Dataset.from_tensor_slices(Train_dict_features_norm[feature])
@@ -416,32 +416,32 @@ def create_fast_preprocessing_ts_odds(Train_teams_encoded, Train_dict_features_n
     Train_labels_encoded = tf.data.Dataset.from_tensor_slices(Train_labels_encoded) 
     Dataset_train_norm = tf.data.Dataset.zip((Dataset_train_norm, Train_labels_encoded))
 
-    #creo un array con le features concatenate
-    Dataset_Valid_norm = tf.data.Dataset.from_tensor_slices(Valid_teams_encoded)
+    #valid
+    Dataset_valid_norm = tf.data.Dataset.from_tensor_slices(Valid_teams_encoded)
     for feature in list(Valid_dict_features_norm.keys()):
         temp_dataset = tf.data.Dataset.from_tensor_slices(Valid_dict_features_norm[feature])
-        Dataset_Valid_norm = tf.data.Dataset.zip((Dataset_Valid_norm, temp_dataset))
+        Dataset_valid_norm = tf.data.Dataset.zip((Dataset_valid_norm, temp_dataset))
     #adding odds
     Valid_odds_norm = tf.data.Dataset.from_tensor_slices(Valid_odds_norm) 
-    Dataset_train_norm = tf.data.Dataset.zip((Dataset_train_norm, Valid_odds_norm))
+    Dataset_valid_norm = tf.data.Dataset.zip((Dataset_valid_norm, Valid_odds_norm))
     # make labels
     Valid_labels_encoded = tf.data.Dataset.from_tensor_slices(Valid_labels_encoded) 
-    Dataset_Valid_norm = tf.data.Dataset.zip((Dataset_Valid_norm, Valid_labels_encoded))
+    Dataset_valid_norm = tf.data.Dataset.zip((Dataset_valid_norm, Valid_labels_encoded))
 
-    #creo un array con le features concatenate
-    Dataset_Test_norm = tf.data.Dataset.from_tensor_slices(Test_teams_encoded)
+    #Test
+    Dataset_test_norm = tf.data.Dataset.from_tensor_slices(Test_teams_encoded)
     for feature in list(Test_dict_features_norm.keys()):
         temp_dataset = tf.data.Dataset.from_tensor_slices(Test_dict_features_norm[feature])
-        Dataset_Test_norm = tf.data.Dataset.zip((Dataset_Test_norm, temp_dataset))
+        Dataset_test_norm = tf.data.Dataset.zip((Dataset_test_norm, temp_dataset))
     #adding odds
     Test_odds_norm = tf.data.Dataset.from_tensor_slices(Test_odds_norm) 
-    Dataset_train_norm = tf.data.Dataset.zip((Dataset_train_norm, Test_odds_norm))
+    Dataset_test_norm = tf.data.Dataset.zip((Dataset_test_norm, Test_odds_norm))
     # make labels
     Test_labels_encoded = tf.data.Dataset.from_tensor_slices(Test_labels_encoded)
-    Dataset_Test_norm = tf.data.Dataset.zip((Dataset_Test_norm, Test_labels_encoded))
+    Dataset_test_norm = tf.data.Dataset.zip((Dataset_test_norm, Test_labels_encoded))
 
     Dataset_train_norm = Dataset_train_norm.batch(32).prefetch(tf.data.AUTOTUNE) #Autotune è per dirgli di prefetchare tanti dati quanti può
-    Dataset_valid_norm = Dataset_Valid_norm.batch(32).prefetch(tf.data.AUTOTUNE)
-    Dataset_Test_norm = Dataset_Test_norm.batch(32).prefetch(tf.data.AUTOTUNE)
+    Dataset_valid_norm = Dataset_valid_norm.batch(32).prefetch(tf.data.AUTOTUNE)
+    Dataset_test_norm = Dataset_test_norm.batch(32).prefetch(tf.data.AUTOTUNE)
 
-    return Dataset_train_norm, Dataset_valid_norm, Dataset_Test_norm
+    return Dataset_train_norm, Dataset_valid_norm, Dataset_test_norm
