@@ -376,14 +376,14 @@ def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state 
         Train_dict_features_norm[feature] = numerical_transf.transform(Train_dict_features_norm[feature])
         Valid_dict_features_norm[feature] = numerical_transf.transform(Valid_dict_features_norm[feature])
         Test_dict_features_norm[feature] = numerical_transf.transform(Test_dict_features_norm[feature])
-
+    
     # Encoding odds
     odds_transf = make_column_transformer(
         (MinMaxScaler(), ['home_win_odds','draw_odds','away_win_odds']), 
         sparse_threshold=0  
     )
 
-    numerical_transf.fit(Train_odds)
+    odds_transf.fit(Train_odds)
     Train_odds_norm = odds_transf.transform(Train_odds)
     Valid_odds_norm = odds_transf.transform(Valid_odds)
     Test_odds_norm = odds_transf.transform(Test_odds)
