@@ -339,6 +339,7 @@ def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state 
     # save the  transformer
     if save_tranformer: 
             joblib.dump(teams_transf, 'transformers/teams_transformer.pkl')
+            print('saving teams tranformers')
 
     Train_teams_encoded = teams_transf.transform(Train_teams)
     Valid_teams_encoded = teams_transf.transform(Valid_teams)
@@ -365,6 +366,7 @@ def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state 
         # save the  transformer
         if save_tranformer: 
             joblib.dump(ordinal_encoder, 'transformers/ordinal_encoder_transformer.pkl')
+            print('saving ordinal tranformers')
 
         Train_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Train_labels).reshape(-1, 1)))
         Valid_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Valid_labels).reshape(-1, 1)))
@@ -386,6 +388,7 @@ def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state 
         # save the  transformer
         if save_tranformer: 
             joblib.dump(numerical_transf, f'transformers/numerical_{feature}_transformer.pkl')
+            print(f'saving {feature} tranformers')
 
         Train_dict_features_norm[feature] = numerical_transf.transform(Train_dict_features_norm[feature])
         Valid_dict_features_norm[feature] = numerical_transf.transform(Valid_dict_features_norm[feature])
@@ -402,6 +405,7 @@ def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state 
     # save the  transformer
     if save_tranformer: 
             joblib.dump(odds_transf, 'transformers/odds_transformer.pkl')
+            print('saving odds tranformers')
 
     Train_odds_norm = odds_transf.transform(Train_odds)
     Valid_odds_norm = odds_transf.transform(Valid_odds)
