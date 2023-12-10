@@ -5,6 +5,7 @@ import os
 import re
 import random 
 import numpy as np
+import joblib
 import warnings
 import tensorflow as tf 
 from sklearn.model_selection import train_test_split
@@ -223,7 +224,7 @@ def create_fast_preprocessing_ts(Train_teams_encoded, Train_dict_features_norm, 
 ##################################################################
 
 
-def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state = True):
+def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state = True, save_tranformer=False):
 
     all_features = ['ft_goals','ft_goals_conceded','shots','shots_target', 'fouls_done','corners_obtained', 'yellows', 'reds']
     less_features = ['ft_goals','ft_goals_conceded','shots', 'fouls_done','corners_obtained', 'reds']
@@ -335,12 +336,16 @@ def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state 
 
     teams_transf.fit(Train_teams)
 
+    # save the  transformer
+    if save_tranformer: 
+         joblib.dump(teams_transf, 'transformers/teams_transformer.pkl')
+
     Train_teams_encoded = teams_transf.transform(Train_teams)
     Valid_teams_encoded = teams_transf.transform(Valid_teams)
     Test_teams_encoded = teams_transf.transform(Test_teams)
 
+    #encoding labels
     if random_state == False:
-        #encoding labels
         label_transf = make_column_transformer(
         (OneHotEncoder(handle_unknown='ignore'), ['ft_result']),
         sparse_threshold=0  
@@ -356,6 +361,10 @@ def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state 
         ordinal_encoder = OneHotEncoder(sparse=False)
         # Addestra l'OrdinalEncoder su Train_labels e applica la trasformazione
         Train_labels_encoded = ordinal_encoder.fit(np.array(Train_labels).reshape(-1, 1))
+
+        # save the  transformer
+        if save_tranformer: 
+         joblib.dump(ordinal_encoder, 'transformers/ordinal_encoder_transformer.pkl')
 
         Train_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Train_labels).reshape(-1, 1)))
         Valid_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Valid_labels).reshape(-1, 1)))
@@ -373,6 +382,11 @@ def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state 
             sparse_threshold=0  
         )
         numerical_transf.fit(Train_dict_features[feature])
+
+        # save the  transformer
+        if save_tranformer: 
+         joblib.dump(numerical_transf, 'transformers/numerical_transformer.pkl')
+
         Train_dict_features_norm[feature] = numerical_transf.transform(Train_dict_features_norm[feature])
         Valid_dict_features_norm[feature] = numerical_transf.transform(Valid_dict_features_norm[feature])
         Test_dict_features_norm[feature] = numerical_transf.transform(Test_dict_features_norm[feature])
@@ -384,6 +398,11 @@ def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state 
     )
 
     odds_transf.fit(Train_odds)
+
+    # save the  transformer
+    if save_tranformer: 
+         joblib.dump(odds_transf, 'transformers/odds_transformer.pkl')
+
     Train_odds_norm = odds_transf.transform(Train_odds)
     Valid_odds_norm = odds_transf.transform(Valid_odds)
     Test_odds_norm = odds_transf.transform(Test_odds)
