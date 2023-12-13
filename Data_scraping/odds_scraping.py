@@ -80,6 +80,10 @@ def find_numbers_in_file(file_path):
 ### MAIN
 
 def refresh_odds(start_date_filter, end_date_filter, num_matches):
+    # saving the previous odds in a csv file
+    column_types = {'1': float, 'x': float, '2': float}
+    pd.read_csv(r'Data_scraping/last_odds.csv', dtype=column_types).to_csv('Data_scraping/min_odds.csv',index=False)
+
     # Saving the html file
     website_url = "https://www.snai.it/sport/CALCIO/SERIE%20A"
     output_path = "Data_scraping/last_odds.html"
@@ -111,15 +115,3 @@ def refresh_odds(start_date_filter, end_date_filter, num_matches):
                 print(temp)
                 temp=[]
                 reset=0
-
-
-    # creating the dataframe containing the minimum odds
-    df_min = pd.DataFrame()
-    column_types = {'1': float, 'x': float, '2': float}
-    last_odds = pd.read_csv(r'Data_scraping/last_odds.csv', dtype=column_types)
-    min_odds = pd.read_csv(r'Data_scraping/min_odds.csv', dtype=column_types)
-
-    for col in last_odds.columns:
-        df_min[col] = [min(a, b) for a, b in zip(min_odds[col], last_odds[col])]
-
-    df_min.to_csv('Data_scraping/min_odds.csv',index=False)
