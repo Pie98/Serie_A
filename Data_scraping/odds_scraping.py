@@ -79,7 +79,7 @@ def find_numbers_in_file(file_path):
 
 ### MAIN
 
-def refresh_odds(start_date_filter, end_date_filter):
+def refresh_odds(start_date_filter, end_date_filter, num_matches):
     # Saving the html file
     website_url = "https://www.snai.it/sport/CALCIO/SERIE%20A"
     output_path = "Data_scraping/last_odds.html"
@@ -94,7 +94,7 @@ def refresh_odds(start_date_filter, end_date_filter):
     # finding the odds i need
     result = find_numbers_in_file(output_path)
 
-    if len(result) != 70:
+    if len(result) != num_matches * 7:
         raise ValueError(' WARNING, NOT 10 MATCHES SELECTED ')
 
     #saving the odds in a csv 
