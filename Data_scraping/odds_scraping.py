@@ -82,7 +82,7 @@ def find_numbers_in_file(file_path):
 def refresh_odds(start_date_filter, end_date_filter, num_matches):
     # saving the previous odds in a csv file
     column_types = {'1': float, 'x': float, '2': float}
-    pd.read_csv(r'Data_scraping/last_odds.csv', dtype=column_types).to_csv('Data_scraping/min_odds.csv',index=False)
+    pd.read_csv(r'Data_scraping/last_odds.csv', dtype=column_types).to_csv('Data_scraping/previous_odds.csv',index=False)
 
     # Saving the html file
     website_url = "https://www.snai.it/sport/CALCIO/SERIE%20A"
