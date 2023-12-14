@@ -7,6 +7,7 @@ import joblib
 import random 
 from datetime import datetime
 import numpy as np
+import csv
 import warnings
 import matplotlib.pyplot as plt
 import tensorflow as tf 
@@ -210,7 +211,7 @@ def new_predictions_calc(today_date, home_teams, away_teams):
     for index, row in last_odds.iterrows():
         win, draw, loss = row
         new_rows.loc[index,['B365H', 'B365D', 'B365A']] = [win,draw,loss]
-
+    
     # create a previous and last odds dataframe
     last_odds_df = pd.DataFrame()
     last_odds_df[['HomeTeam','home_odds', 'draw_odds', 'away_odds']] = new_rows[['HomeTeam','B365H', 'B365D', 'B365A']].copy()
@@ -346,6 +347,8 @@ def display_money_win_predict():
     plt.title(f"Last odds money-win probability")
     plt.show()
 
+    return predict_variations
+
 
 ###########################################################
  
@@ -353,6 +356,24 @@ def display_money_win_predict():
 
 ###########################################################
     
-#    
+def display_last_previous_odds(last_odds_df, previous_odds_df):
+    # create bar_plot
+    bar_width = 0.2  # width of each bar
+    index_values = range(len(last_odds_df.index))
+    offsets = [-bar_width, 0, bar_width]  # Offset of each bar 3
+
+    differenza_df = last_odds_df - previous_odds_df
+    palette = [['salmon','lightblue', 'lightgreen'], ['red','blue', 'green'], ['darkred','darkblue', 'darkgreen']]
+    for i, col in enumerate(last_odds_df.columns):
+        colori = [palette[i][0] if diff < 0 else (palette[i][1] if diff == 0 else palette[i][2]) for diff in differenza_df[col]]
+        plt.bar([idx + offsets[i] for idx in index_values], last_odds_df[col], width=bar_width, label=col, color=colori)
+
+    plt.xlabel('Indice')
+    plt.ylabel('Quote')
+    plt.title('Bar Plot con Barre Raggruppate')
+    plt.xticks(index_values, last_odds_df.index, rotation=45, ha='right')
+    plt.legend()
+    plt.tight_layout()
+    plt.show() 
 
     
