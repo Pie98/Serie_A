@@ -147,9 +147,9 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
         Test_labels_encoded = label_transf.transform(Test_labels)
 
     else:
-        # Crea un OrdinalEncoder
+        # Create an OrdinalEncoder
         ordinal_encoder = OneHotEncoder(sparse=False)
-        # Addestra l'OrdinalEncoder su Train_labels e applica la trasformazione
+        # Training the OrdinalEncoder on Train_labels
         Train_labels_encoded = ordinal_encoder.fit(np.array(Train_labels).reshape(-1, 1))
 
         Train_labels_encoded = np.squeeze(ordinal_encoder.transform(np.array(Train_labels).reshape(-1, 1)))
@@ -186,7 +186,7 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
 
 def create_fast_preprocessing_ts(Train_teams_encoded, Train_dict_features_norm, Train_labels_encoded,Valid_teams_encoded, Valid_dict_features_norm,
                                  Valid_labels_encoded,Test_teams_encoded, Test_dict_features_norm,Test_labels_encoded ):
-    #creo i fast preprocessing datasets
+    #creating Train fast preprocessing datasets
     Dataset_train_norm = tf.data.Dataset.from_tensor_slices(Train_teams_encoded)
     for feature in list(Train_dict_features_norm.keys()):
         temp_dataset = tf.data.Dataset.from_tensor_slices(Train_dict_features_norm[feature])
@@ -194,7 +194,7 @@ def create_fast_preprocessing_ts(Train_teams_encoded, Train_dict_features_norm, 
     Train_labels_encoded = tf.data.Dataset.from_tensor_slices(Train_labels_encoded) # make labels
     Dataset_train_norm = tf.data.Dataset.zip((Dataset_train_norm, Train_labels_encoded))
 
-    #creo un array con le features concatenate
+    #creating Valid fast preprocessing datasets
     Dataset_valid_norm = tf.data.Dataset.from_tensor_slices(Valid_teams_encoded)
     for feature in list(Valid_dict_features_norm.keys()):
         temp_dataset = tf.data.Dataset.from_tensor_slices(Valid_dict_features_norm[feature])
@@ -202,7 +202,7 @@ def create_fast_preprocessing_ts(Train_teams_encoded, Train_dict_features_norm, 
     Valid_labels_encoded = tf.data.Dataset.from_tensor_slices(Valid_labels_encoded) # make labels
     Dataset_valid_norm = tf.data.Dataset.zip((Dataset_valid_norm, Valid_labels_encoded))
 
-    #creo un array con le features concatenate
+    #creating Test fast preprocessing datasets
     Dataset_test_norm = tf.data.Dataset.from_tensor_slices(Test_teams_encoded)
     for feature in list(Test_dict_features_norm.keys()):
         temp_dataset = tf.data.Dataset.from_tensor_slices(Test_dict_features_norm[feature])
@@ -358,9 +358,9 @@ def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state 
         Test_labels_encoded = label_transf.transform(Test_labels)
 
     else:
-        # Crea un OrdinalEncoder
+        # create an OrdinalEncoder
         ordinal_encoder = OneHotEncoder(sparse=False)
-        # Addestra l'OrdinalEncoder su Train_labels e applica la trasformazione
+        # Trainin the OrdinalEncoder on Train_labels
         Train_labels_encoded = ordinal_encoder.fit(np.array(Train_labels).reshape(-1, 1))
 
         # save the  transformer

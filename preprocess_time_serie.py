@@ -15,8 +15,8 @@ def preprocess_teams(dataframe = [], directory = []):
         print('Nessun input valido ricevuto')
         return 0   
     
-    # Gestione dei valori nulli
-    # Rimpiazzo i valori nulli delle odds con 0 e i valori nulli degli altri campi con la loro media
+    # managing null values 
+    # Replace odds null values with 0 and the other null values with their average
     colonne_nulle = ['away_shots','home_shots','away_shots_targ','home_shots_targ','away_corners','home_corners','away_fouls','home_fouls','ht_away_goals','ht_home_goals','home_yellow','away_yellow','home_red','away_red']
     odds = ['draw_odds','home_win_odds','away_win_odds']
     
@@ -29,13 +29,11 @@ def preprocess_teams(dataframe = [], directory = []):
     
     df_giornate['ht_results'].fillna('###', inplace=True)     
 
-    # ## Per ogni squadra creo un dataframe specifico 
-    # ### Controllo che le squadre siano coerenti sia in casa che trasferta
+    #creating a dataframe for each team
     #print(f"\nle squadre sono uguali:\n {np.sort(df_giornate['hometeam'].unique()) == np.sort(df_giornate['awayteam'].unique())}")
     
     squadre = np.sort(df_giornate['hometeam'].unique())
-    
-    # Creo un dataframe per ogni squadra e risultati delle ultime giornate
+
     squadra_list = []
     index_list = []
     div_list = []
@@ -52,11 +50,10 @@ def preprocess_teams(dataframe = [], directory = []):
     gialli_list = []
     rossi_list =[]  
     
-    #
     Statistiche_squadre_dict = {}
     
     for squadra in squadre:
-        # per ogni squadra creo un dizionario dove ad ogni squadra associo un dataframe 
+        # Creating a dictionary where the keys are the teams and the values the features dictionary
         df_squadra_0 = df_giornate[(df_giornate['hometeam'] == squadra) | (df_giornate['awayteam'] == squadra)]
     
         for row in df_squadra_0.itertuples():
@@ -117,10 +114,10 @@ def preprocess_teams(dataframe = [], directory = []):
         (Statistiche_squadre_dict[squadra]['ft_goals'] == Statistiche_squadre_dict[squadra]['ft_goals_conceded'])   # Condizione per Draw
         ]
     
-        # Valori corrispondenti alle condizioni
+        # conditions corrisponding to the values
         values = ['W', 'L', 'D']
         punti = [3,0,1]
-        # Creazione della nuova colonna 'result' e 'points
+        # creating a new column 'result' e 'points
         Statistiche_squadre_dict[squadra]['points'] = np.select(conditions, punti)
         Statistiche_squadre_dict[squadra]['result'] = np.select(conditions, values)
 
@@ -161,12 +158,12 @@ def create_time_series_features(num_features, team_stats_dict, df_giornate, gior
 
    for squadra in team_stats_dict.keys():
       for feature in colonne:
-         #Creo colonne con i risultati shiftati in modo che possa avere i risultati comulativi
+         # Creating columns with shifted results (to obtain past days results)
          for i in range(giorni_cumulativi):
             feature_passata = f'{feature}_{i+1}'
             team_stats_dict[squadra][feature_passata] = team_stats_dict[squadra].groupby('stagione')[feature].shift(i+1)
 
-   # Unisco tutti i dataframe in un unico solo 
+   # I concatenate all the dataframes
    squadre = list(team_stats_dict.keys())
    df_squadre_cumul = team_stats_dict[squadre[0]]
    for squadra in squadre[1:]:
@@ -174,12 +171,11 @@ def create_time_series_features(num_features, team_stats_dict, df_giornate, gior
    
    df_squadre_cumul = df_squadre_cumul.sort_values(['date'])
 
-   # Unisco le statistiche cumulative al df di partenza
-   # Inizializzazione delle stringhe cumulative
+   # initializing the select query
    risultati_passati_casa = ''
    risultati_passati_trasferta = ''
    
-   # Creazione delle query per risultati cumulativi
+   # Creazione queries to select the past days features
    for feature in colonne:
        for i in range(giorni_cumulativi):
            risultati_passati_casa += f' home_teams.{feature}_{i+1} AS home_{feature}_{i+1}, '
