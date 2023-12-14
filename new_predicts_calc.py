@@ -356,7 +356,7 @@ def display_money_win_predict():
 
 ###########################################################
     
-def display_last_previous_odds(last_odds_df, previous_odds_df):
+def display_last_previous_odds(last_odds_df, previous_odds_df, home_teams):
     # create bar_plot
     bar_width = 0.2  # width of each bar
     index_values = range(len(last_odds_df.index))
@@ -371,7 +371,7 @@ def display_last_previous_odds(last_odds_df, previous_odds_df):
     plt.xlabel('Indice')
     plt.ylabel('Quote')
     plt.title('Bar Plot con Barre Raggruppate')
-    plt.xticks(index_values, last_odds_df.index, rotation=45, ha='right')
+    plt.xticks(last_odds_df.index, home_teams, rotation=45, ha='right')
     plt.legend()
     plt.tight_layout()
     plt.show() 
