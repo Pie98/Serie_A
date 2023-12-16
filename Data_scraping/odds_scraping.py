@@ -47,7 +47,7 @@ def save_page_html(url, save_path):
 
 
 #Filtering the parts of the html file that we are interested in 
-def filter_words(input_file, output_file, start_date, end_date):
+def filter_words(input_file, output_file, start_date, end_date, other_matches):
     with open(input_file, 'r', encoding='utf-8') as infile:
         words = infile.read().split()
 
@@ -59,7 +59,10 @@ def filter_words(input_file, output_file, start_date, end_date):
         raise ValueError("Le date di inizio o fine non sono presenti nel file.")
 
     # Filtra le parole tra '15/12' e '18/12' inclusi
-    filtered_words = words[start_index:end_index + 20644]
+    if other_matches:
+        filtered_words = words[start_index:end_index]
+    else:
+        filtered_words = words[start_index:end_index + 20644]
 
     with open(output_file, 'w', encoding='utf-8') as outfile:
         outfile.write(' '.join(filtered_words))
@@ -79,7 +82,7 @@ def find_numbers_in_file(file_path):
 
 ### MAIN
 
-def refresh_odds(start_date_filter, end_date_filter, num_matches):
+def refresh_odds(start_date_filter, end_date_filter, num_matches, other_matches):
     # saving the previous odds in a csv file
     column_types = {'1': float, 'x': float, '2': float}
     pd.read_csv(r'Data_scraping/last_odds.csv', dtype=column_types).to_csv('Data_scraping/previous_odds.csv',index=False)
@@ -92,12 +95,12 @@ def refresh_odds(start_date_filter, end_date_filter, num_matches):
     # filtering the part of the html file i need
     input_file_path = "Data_scraping/last_odds.html"
 
-    filter_words(input_file_path, output_path, start_date_filter, end_date_filter)
+    filter_words(input_file_path, output_path, start_date_filter, end_date_filter, other_matches)
 
 
     # finding the odds i need
     result = find_numbers_in_file(output_path)
-
+    print(result)
     if len(result) != num_matches * 7:
         raise ValueError(' WARNING, NOT 10 MATCHES SELECTED ')
 

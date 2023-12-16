@@ -187,14 +187,13 @@ def new_predictions_calc(today_date, home_teams, away_teams):
     df = df[df['Date'] != today_date]
 
     # create a dataframe with 10 rows of zeros
-    new_rows = pd.DataFrame(0, index=range(10), columns=df.columns)
+    new_rows = pd.DataFrame(0, index=range(len(last_odds)), columns=df.columns)
 
     #updating teams columns
     for index, row in last_odds.iterrows():
         win, draw, loss = row
         new_rows.loc[index, ['Div', 'Date', 'Time', 'HomeTeam', 'AwayTeam', 'FTHG', 'FTAG',
                               'FTR']] = ['I1', f'{today_date}', '17:30', home_teams[index], away_teams[index], 0, 0, 'D']
-
 
     #udpating the odds columns
     # new_rows.loc[0,['B365H', 'B365D', 'B365A']] = [4.75, 3.25, 1.85]
@@ -303,6 +302,9 @@ def new_predictions_calc(today_date, home_teams, away_teams):
     print(f'\n ultima esecuzione : {datetime.now()}')
 
     #save the predictions in a csv
+    old_predictions = pd.read_csv('predictions_variations.csv')
+    old_predictions = old_predictions[list(model_odds_new_compare['hometeam']) + ['Date']]
+    old_predictions.to_csv('predictions_variations.csv', index=False)
     with open('predictions_variations.csv', mode='a', newline='', encoding='utf-8',) as file:
         csv_writer = csv.writer(file)
         print(os.path.getsize('predictions_variations.csv'))
