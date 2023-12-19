@@ -418,7 +418,7 @@ def create_time_series_model_conv1d(Train_teams_shape, feature_input_shape,num_f
     # modello ft_goals
     inputs = layers.Input(shape=(feature_input_shape,), name='goals_input')
     x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu')(x)  
+    x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu',padding='causal')(x)  
     x = layers.Flatten()(x) #layers.Flatten()(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
@@ -427,8 +427,8 @@ def create_time_series_model_conv1d(Train_teams_shape, feature_input_shape,num_f
     # modello ft_goals_conceded
     inputs = layers.Input(shape=(feature_input_shape,), name='goals_conceded_input')
     x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu')(x)  
-    x = layers.Flatten()(x)                
+    x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu',padding='causal')(x)  
+    x = layers.GlobalMaxPooling1D(data_format='channels_first')(x)              
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_ft_goals_conceded = tf.keras.Model(inputs, outputs, name='ft_goals_conceded')
@@ -436,8 +436,8 @@ def create_time_series_model_conv1d(Train_teams_shape, feature_input_shape,num_f
     # modello shots
     inputs = layers.Input(shape=(feature_input_shape,), name='shotss_input')
     x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu')(x)       
-    x = layers.Flatten()(x)          
+    x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu',padding='causal')(x)       
+    x = layers.GlobalMaxPooling1D(data_format='channels_first')(x)        
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_shots = tf.keras.Model(inputs, outputs, name='model_1_shots')
@@ -445,7 +445,7 @@ def create_time_series_model_conv1d(Train_teams_shape, feature_input_shape,num_f
     # modello corners_obtained
     inputs = layers.Input(shape=(feature_input_shape,), name='corners_input')
     x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu')(x)                 
+    x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu',padding='causal')(x)                 
     x = layers.Flatten()(x)
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
@@ -456,8 +456,8 @@ def create_time_series_model_conv1d(Train_teams_shape, feature_input_shape,num_f
         # modello shots_target
         inputs = layers.Input(shape=(feature_input_shape,), name='shots_target_input')
         x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-        x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu')(x)           
-        x = layers.Flatten()(x)       
+        x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu',padding='causal')(x)           
+        x = layers.GlobalMaxPooling1D(data_format='channels_first')(x)     
         x = layers.Dense(16, activation='relu')(x)
         outputs = layers.Dropout(second_dropout)(x) 
         model_shots_target = tf.keras.Model(inputs, outputs, name='model_1_shots_target')
@@ -494,8 +494,8 @@ def create_time_series_model_conv1d(Train_teams_shape, feature_input_shape,num_f
     # modello fouls_done
     inputs = layers.Input(shape=(feature_input_shape,), name='fouls_input')
     x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu')(x)   
-    x = layers.Flatten()(x)              
+    x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu',padding='causal')(x)   
+    x = layers.GlobalMaxPooling1D(data_format='channels_first')(x)            
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_fouls_done = tf.keras.Model(inputs, outputs, name='model_1_fouls_done')
@@ -504,8 +504,8 @@ def create_time_series_model_conv1d(Train_teams_shape, feature_input_shape,num_f
         # modello yellows
         inputs = layers.Input(shape=(feature_input_shape,), name='yellows_input')
         x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-        x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu')(x)     
-        x = layers.Flatten()(x)             
+        x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu',padding='causal')(x)     
+        x = layers.GlobalMaxPooling1D(data_format='channels_first')(x)           
         x = layers.Dense(16, activation='relu')(x)
         outputs = layers.Dropout(second_dropout)(x) 
         model_yellows = tf.keras.Model(inputs, outputs, name='model_1_corners_yellows')
@@ -513,8 +513,8 @@ def create_time_series_model_conv1d(Train_teams_shape, feature_input_shape,num_f
     # modello reds
     inputs = layers.Input(shape=(feature_input_shape,), name='reds_input')
     x = layers.Reshape((feature_input_shape, 1))(inputs) # add an extra dimension for timesteps
-    x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu')(x)    
-    x = layers.Flatten()(x)             
+    x = layers.Conv1D(filters = num_filters, kernel_size=kernel_size, activation='relu',padding='causal')(x)    
+    x = layers.GlobalMaxPooling1D(data_format='channels_first')(x)           
     x = layers.Dense(16, activation='relu')(x)
     outputs = layers.Dropout(second_dropout)(x) 
     model_reds = tf.keras.Model(inputs, outputs, name='model_1_corners_reds')
