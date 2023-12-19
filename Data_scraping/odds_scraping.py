@@ -45,28 +45,6 @@ def save_page_html(url, save_path):
     # Close the browser window
     driver.quit()
 
-
-#Filtering the parts of the html file that we are interested in 
-# def filter_words(input_file, output_file, start_date, end_date, other_matches):
-#     with open(input_file, 'r', encoding='utf-8') as infile:
-#         words = infile.read().split()
-
-#     start_index = next((i for i, word in enumerate(words) if word == start_date), None)
-#     end_index = next((i for i, word in enumerate(words) if word == end_date), None)
-
-#     # Verifica se le parole 
-#     if start_index is None or end_index is None:
-#         raise ValueError("Le date di inizio o fine non sono presenti nel file.")
-
-#     # Filtra le parole tra start_index e end_index inclusi
-#     if other_matches:
-#         filtered_words = words[start_index:end_index]
-#     else:
-#         filtered_words = words[start_index:end_index + 20644]
-
-#     with open(output_file, 'w', encoding='utf-8') as outfile:
-#         outfile.write(' '.join(filtered_words))
-
 #Filtering the parts of the html file that we are interested in 
 def filter_words(input_file, output_file, start_match, end_match, other_matches):
     with open(input_file, 'r', encoding='utf-8') as infile:
@@ -83,7 +61,7 @@ def filter_words(input_file, output_file, start_match, end_match, other_matches)
     if other_matches:
         filtered_content = content[start_index:end_index]
     else:
-        filtered_content = content[start_index:end_index + 20644]
+        filtered_content = content[start_index:end_index + 21644]
 
     with open(output_file, 'w', encoding='utf-8') as outfile:
         outfile.write(filtered_content)
@@ -92,11 +70,12 @@ def find_numbers_in_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
 
-    # Definisci il pattern regex per trovare le stringhe '\d\d,\d\d' o '\d,\d\d'
-    pattern = re.compile(r'\b\d{1,2},\d{1,2}\b')
+    # define pattern regex 
+    pattern = re.compile(r'\b\d{1,2},\d{1,2}\b|\s\s\d{1,2}\s')
 
-    # Trova tutte le corrispondenze nel testo
+    # find patterns
     matches = pattern.findall(content)
+    matches = [s.replace(" ", "") for s in matches]
 
     return matches
 
