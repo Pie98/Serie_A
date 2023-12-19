@@ -287,11 +287,11 @@ def new_predictions_calc(today_date, home_teams, away_teams, prima_iterazione):
     # Creazione della nuova colonna 'result' e 'points
     model_odds_new_compare['preds'] = np.select(conditions, values)
     model_odds_new_compare['snai_pred'] = np.select(conditions_snai, values)
-    model_odds_new_compare['money_won'] = model_odds_new_compare['best_pred_prob']*model_odds_new_compare['snai_prob']
 
     # creo la colonna money won 
     model_odds_new_compare['pred_odds'] = model_odds_new_compare.apply(lambda row: row['home_win_odds'] if row['preds'] == 'H' else (row['draw_odds'] if row['preds'] == 'D' 
                                                                                                 else row['away_win_odds']), axis=1)
+    model_odds_new_compare['money_won'] = model_odds_new_compare['best_pred_prob']*model_odds_new_compare['pred_odds']
     # Inserisci la colonna nella nuova posizione
     insert_data = model_odds_new_compare['money_won']
     model_odds_new_compare.drop(columns=['money_won'], inplace=True)
