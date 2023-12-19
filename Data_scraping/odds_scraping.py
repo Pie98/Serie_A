@@ -9,6 +9,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
+
+#############################################################
+
+# ------------------- save_page_html -----------------------#
+
+#############################################################
+
+
 def save_page_html(url, save_path):
     chrome_options = Options()
     chrome_options.add_argument("--incognito")
@@ -45,6 +53,14 @@ def save_page_html(url, save_path):
     # Close the browser window
     driver.quit()
 
+
+#############################################################
+
+# --------------------- filter_words -----------------------#
+
+#############################################################
+    
+
 #Filtering the parts of the html file that we are interested in 
 def filter_words(input_file, output_file, start_match, end_match, other_matches):
     with open(input_file, 'r', encoding='utf-8') as infile:
@@ -53,11 +69,11 @@ def filter_words(input_file, output_file, start_match, end_match, other_matches)
     start_index = content.find(start_match)
     end_index = content.find(end_match)
 
-    # Verifica se le parole
+    # verifies that the words are in the file
     if start_index == -1 or end_index == -1:
         raise ValueError("Le parole di inizio o fine non sono presenti nel file.")
 
-    # Filtra il contenuto tra start_index e end_index inclusi
+    # filters the html file from start_match to end_match included 
     if other_matches:
         filtered_content = content[start_index:end_index]
     else:
@@ -81,7 +97,12 @@ def find_numbers_in_file(file_path):
     return matches
 
 
-### MAIN
+#############################################################
+
+# --------------------- refresh_odds -----------------------#
+
+#############################################################
+
 
 def refresh_odds(start_filter, end_filter, num_matches, other_matches, prima_iterazione):
     # saving the previous odds in a csv file
