@@ -66,6 +66,7 @@ def filter_words(input_file, output_file, start_match, end_match, other_matches)
     with open(output_file, 'w', encoding='utf-8') as outfile:
         outfile.write(filtered_content)
 
+# Finding the odds in my html file
 def find_numbers_in_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
@@ -119,3 +120,5 @@ def refresh_odds(start_filter, end_filter, num_matches, other_matches, prima_ite
                 print(temp)
                 temp=[]
                 reset=0
+    if (prima_iterazione==True):
+        pd.read_csv(r'Data_scraping/last_odds.csv', dtype=column_types).to_csv('Data_scraping/previous_odds.csv',index=False)

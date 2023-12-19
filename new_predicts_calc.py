@@ -175,7 +175,7 @@ def preprocess_features_time_series_odds_preds(df_Serie_A, num_features, today_d
 
 #################################################
 
-def new_predictions_calc(today_date, home_teams, away_teams):
+def new_predictions_calc(today_date, home_teams, away_teams, prima_iterazione):
     #obtaining the new odds
     column_types = {'1': float, 'x': float, '2': float}
     last_odds = pd.read_csv(r'Data_scraping/last_odds.csv', dtype=column_types)
@@ -223,8 +223,8 @@ def new_predictions_calc(today_date, home_teams, away_teams):
     # adding the new rows to the existing dataframe
     new_csv = pd.concat([df, new_rows], ignore_index=True)
     new_csv['Date'] = pd.to_datetime(new_csv['Date'], format='%Y-%m-%d')
-    if ((len(new_csv['HomeTeam'])!=20) | (len(new_csv['awayteam'])!=20)):
-        raise('Errore nel nome di una squadra')
+    if ((len(new_csv['HomeTeam'].unique())!=20) | (len(new_csv['AwayTeam'].unique())!=20)):
+        raise ValueError('Errore nel nome di una squadra')
 
     # Save the new dataframe 
     new_csv.to_csv(r"C:\Users\Hp\Serie_A\csv_predictions\stagione_23_24.csv")
@@ -304,9 +304,10 @@ def new_predictions_calc(today_date, home_teams, away_teams):
     print(f'\n ultima esecuzione : {datetime.now()}')
 
     #save the predictions in a csv
-    old_predictions = pd.read_csv('predictions_variations.csv')
-    old_predictions = old_predictions[list(model_odds_new_compare['hometeam']) + ['Date']]
-    old_predictions.to_csv('predictions_variations.csv', index=False)
+    if prima_iterazione == False:
+        old_predictions = pd.read_csv('predictions_variations.csv')
+        old_predictions = old_predictions[list(model_odds_new_compare['hometeam']) + ['Date']]
+        old_predictions.to_csv('predictions_variations.csv', index=False)
     with open('predictions_variations.csv', mode='a', newline='', encoding='utf-8',) as file:
         csv_writer = csv.writer(file)
         print(os.path.getsize('predictions_variations.csv'))
