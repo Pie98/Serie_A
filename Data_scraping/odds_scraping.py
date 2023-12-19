@@ -47,25 +47,46 @@ def save_page_html(url, save_path):
 
 
 #Filtering the parts of the html file that we are interested in 
-def filter_words(input_file, output_file, start_date, end_date, other_matches):
+# def filter_words(input_file, output_file, start_date, end_date, other_matches):
+#     with open(input_file, 'r', encoding='utf-8') as infile:
+#         words = infile.read().split()
+
+#     start_index = next((i for i, word in enumerate(words) if word == start_date), None)
+#     end_index = next((i for i, word in enumerate(words) if word == end_date), None)
+
+#     # Verifica se le parole 
+#     if start_index is None or end_index is None:
+#         raise ValueError("Le date di inizio o fine non sono presenti nel file.")
+
+#     # Filtra le parole tra start_index e end_index inclusi
+#     if other_matches:
+#         filtered_words = words[start_index:end_index]
+#     else:
+#         filtered_words = words[start_index:end_index + 20644]
+
+#     with open(output_file, 'w', encoding='utf-8') as outfile:
+#         outfile.write(' '.join(filtered_words))
+
+#Filtering the parts of the html file that we are interested in 
+def filter_words(input_file, output_file, start_match, end_match, other_matches):
     with open(input_file, 'r', encoding='utf-8') as infile:
-        words = infile.read().split()
+        content = infile.read()
 
-    start_index = next((i for i, word in enumerate(words) if word == start_date), None)
-    end_index = next((i for i, word in enumerate(words) if word == end_date), None)
+    start_index = content.find(start_match)
+    end_index = content.find(end_match)
 
-    # Verifica se le parole '15/12' e '18/12' sono presenti nel file
-    if start_index is None or end_index is None:
-        raise ValueError("Le date di inizio o fine non sono presenti nel file.")
+    # Verifica se le parole
+    if start_index == -1 or end_index == -1:
+        raise ValueError("Le parole di inizio o fine non sono presenti nel file.")
 
-    # Filtra le parole tra '15/12' e '18/12' inclusi
+    # Filtra il contenuto tra start_index e end_index inclusi
     if other_matches:
-        filtered_words = words[start_index:end_index]
+        filtered_content = content[start_index:end_index]
     else:
-        filtered_words = words[start_index:end_index + 20644]
+        filtered_content = content[start_index:end_index + 20644]
 
     with open(output_file, 'w', encoding='utf-8') as outfile:
-        outfile.write(' '.join(filtered_words))
+        outfile.write(filtered_content)
 
 def find_numbers_in_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -82,10 +103,11 @@ def find_numbers_in_file(file_path):
 
 ### MAIN
 
-def refresh_odds(start_date_filter, end_date_filter, num_matches, other_matches):
+def refresh_odds(start_filter, end_filter, num_matches, other_matches, prima_iterazione):
     # saving the previous odds in a csv file
     column_types = {'1': float, 'x': float, '2': float}
-    pd.read_csv(r'Data_scraping/last_odds.csv', dtype=column_types).to_csv('Data_scraping/previous_odds.csv',index=False)
+    if (prima_iterazione==False):
+        pd.read_csv(r'Data_scraping/last_odds.csv', dtype=column_types).to_csv('Data_scraping/previous_odds.csv',index=False)
 
     # Saving the html file
     website_url = "https://www.snai.it/sport/CALCIO/SERIE%20A"
@@ -95,7 +117,7 @@ def refresh_odds(start_date_filter, end_date_filter, num_matches, other_matches)
     # filtering the part of the html file i need
     input_file_path = "Data_scraping/last_odds.html"
 
-    filter_words(input_file_path, output_path, start_date_filter, end_date_filter, other_matches)
+    filter_words(input_file_path, output_path, start_filter, end_filter, other_matches)
 
 
     # finding the odds i need

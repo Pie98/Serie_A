@@ -223,6 +223,8 @@ def new_predictions_calc(today_date, home_teams, away_teams):
     # adding the new rows to the existing dataframe
     new_csv = pd.concat([df, new_rows], ignore_index=True)
     new_csv['Date'] = pd.to_datetime(new_csv['Date'], format='%Y-%m-%d')
+    if ((len(new_csv['HomeTeam'])!=20) | (len(new_csv['awayteam'])!=20)):
+        raise('Errore nel nome di una squadra')
 
     # Save the new dataframe 
     new_csv.to_csv(r"C:\Users\Hp\Serie_A\csv_predictions\stagione_23_24.csv")
