@@ -35,6 +35,7 @@ def preprocess_features_time_series(df_Serie_A, num_features, random_state = Tru
 
     else:
         def select_rows_train(df_gruppo):
+            print(num_righe)
             num_righe = len(df_gruppo)
             limite_inf = 0
             limite_sup = int(0.84 * num_righe)
@@ -255,9 +256,23 @@ def preprocess_features_time_series_odds(df_Serie_A, num_features, random_state 
         Train_df, Valid_df, Train_labels, Valid_labels = train_test_split(Train_df, Train_labels, test_size=0.13, random_state=41)
 
     else:
-        Train_df = df_Serie_A.iloc[:int(len(df_Serie_A)*0.85)]
-        Valid_df = df_Serie_A.iloc[int(len(df_Serie_A)*0.85):int(len(df_Serie_A)*0.97)]
-        Test_df = df_Serie_A.iloc[int(len(df_Serie_A)*0.95):]
+        def select_rows_train(df_gruppo):
+            giornata_max = int(df_gruppo['giornata'].max()*0.85)
+            return df_gruppo[df_gruppo['giornata']<=giornata_max]
+    
+        def select_rows_valid(df_gruppo):
+            giornata_max = int(df_gruppo['giornata'].max()*0.97)
+            giornata_min = int(df_gruppo['giornata'].max()*0.85)
+            return df_gruppo[(df_gruppo['giornata']<=giornata_max) & (df_gruppo['giornata']>giornata_min)]
+        
+        def select_rows_test(df_gruppo):
+            giornata_min = int(df_gruppo['giornata'].max()*0.97)
+            return df_gruppo[df_gruppo['giornata']>giornata_min]
+
+        # For each season select an ordered number of matches
+        Train_df = df_Serie_A.groupby('stagione', group_keys=False).apply(select_rows_train)
+        Valid_df = df_Serie_A.groupby('stagione', group_keys=False).apply(select_rows_valid)
+        Test_df = df_Serie_A.groupby('stagione', group_keys=False).apply(select_rows_test)
 
         Train_labels = Train_df[['ft_result']]
         Valid_labels = Valid_df[['ft_result']]
