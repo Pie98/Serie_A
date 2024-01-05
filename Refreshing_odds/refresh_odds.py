@@ -108,15 +108,15 @@ def refresh_odds(start_filter, end_filter, num_matches, other_matches, prima_ite
     # saving the previous odds in a csv file
     column_types = {'1': float, 'x': float, '2': float}
     if (prima_iterazione==False):
-        pd.read_csv(r'Data_scraping/last_odds.csv', dtype=column_types).to_csv('Data_scraping/previous_odds.csv',index=False)
+        pd.read_csv(r'Refreshing_odds/last_odds.csv', dtype=column_types).to_csv('Refreshing_odds/previous_odds.csv',index=False)
 
     # Saving the html file
     website_url = "https://www.snai.it/sport/CALCIO/SERIE%20A"
-    output_path = "Data_scraping/last_odds.html"
+    output_path = "Refreshing_odds/last_odds.html"
     save_page_html(website_url, output_path)
 
     # filtering the part of the html file i need
-    input_file_path = "Data_scraping/last_odds.html"
+    input_file_path = "Refreshing_odds/last_odds.html"
 
     filter_words(input_file_path, output_path, start_filter, end_filter, other_matches)
 
@@ -128,7 +128,7 @@ def refresh_odds(start_filter, end_filter, num_matches, other_matches, prima_ite
         raise ValueError(' WARNING, NOT 10 MATCHES SELECTED ')
 
     #saving the odds in a csv 
-    with open('Data_scraping/last_odds.csv', mode='w', newline='', encoding='utf-8',) as file:
+    with open('Refreshing_odds/last_odds.csv', mode='w', newline='', encoding='utf-8',) as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow(['1','x','2'])
         reset=0
@@ -142,4 +142,4 @@ def refresh_odds(start_filter, end_filter, num_matches, other_matches, prima_ite
                 temp=[]
                 reset=0
     if (prima_iterazione==True):
-        pd.read_csv(r'Data_scraping/last_odds.csv', dtype=column_types).to_csv('Data_scraping/previous_odds.csv',index=False)
+        pd.read_csv(r'Refreshing_odds/last_odds.csv', dtype=column_types).to_csv('Refreshing_odds/previous_odds.csv',index=False)

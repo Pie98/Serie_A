@@ -11,9 +11,6 @@ This project is a machine learning application designed to predict the outcomes 
 - [Preprocessing](#preprocessing)
 - [Model Training](#model-training)
 - [Evaluation](#evaluation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Getting Started
 

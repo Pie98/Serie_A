@@ -19,7 +19,7 @@ from preprocess_days_stats import preprocess_match_days
 from preprocess_time_serie import preprocess_teams, create_time_series_features
 from preprocess_time_series_features import preprocess_features_time_series, create_fast_preprocessing_ts, preprocess_features_time_series_odds, create_fast_preprocessing_ts_odds
 from helper_functions_tensorflow import CSVLoggerCallback, CSVLoggerCallbackParams
-from Data_scraping.odds_scraping import refresh_odds
+from Refreshing_odds.refresh_odds import refresh_odds
 
 
 #######################################################
@@ -178,8 +178,8 @@ def preprocess_features_time_series_odds_preds(df_Serie_A, num_features, today_d
 def new_predictions_calc(today_date, home_teams, away_teams, prima_iterazione):
     #obtaining the new odds
     column_types = {'1': float, 'x': float, '2': float}
-    last_odds = pd.read_csv(r'Data_scraping/last_odds.csv', dtype=column_types)
-    previous_odds = pd.read_csv(r'Data_scraping/previous_odds.csv', dtype=column_types)
+    last_odds = pd.read_csv(r'Refreshing_odds/last_odds.csv', dtype=column_types)
+    previous_odds = pd.read_csv(r'Refreshing_odds/previous_odds.csv', dtype=column_types)
 
     #adding the new results to the dataframe
     # read new season matches CSV
