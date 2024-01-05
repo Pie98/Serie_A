@@ -9,6 +9,8 @@ This project is a machine learning application (mainly developed with Tensorflow
 - [Project Structure](#Project-Structure)
 - [Model Training](#model-training)
 - [Evaluation](#evaluation)
+- [Results](#Results)
+
 
 ## Project Structure
 
@@ -61,4 +63,21 @@ The repository is organized as follows:
 
 - **transformers:** In this directory we can find the necessary column transformers for evaluating new matches.
 
+## Model Training
 
+Our goal is to create a model with higher accuracy than betting websites predictions. To achieve this, we initially create three different models: a Dense model, a Bidirectional LSTM model, and a CONV1D model. The best-performing models result from experiments and parameter testing, details of which are not documented in the notebook. Lastly, we built a model is that, in addition to the statistics from previous matches, incorporates bookmakers' statistics to obtain more accurate predictions.
+
+## Evaluation
+
+In addition to calculating the accuracies for the training, validation, and test datasets, we evaluate how much money would be won or lost by betting on the matches predicted by our best-performing model. Furthermore, another statistic called "money_won" is created, derived from the product of the win probability and the odds, to calculate the expected value of money won in this specific bet.
+
+## Results
+
+Our model performs slightly better than the bookmakers one. It isn't sufficient to win money sistematically. 
+The main limitations of this model are:
+
+- This model incorporates the odds we aim to enhance as a feature. Consequently, our probability of winning is influenced by the bookmakers' odds, making it more challenging to identify favorable odds for potential monetary gains.
+
+- This model is limited by the absence of some important features, such as the number of injured players, information about the coach, the referee, and the outcomes of competitions like Europa League, Champions League, Coppa Italia, etc., which were not available during the data collection process.
+
+- We could try to improve the model by adding some extra features as: number of matches won in the last X matches, number of matches won at home/away in the last X matches, numer of games won against the opponent teams in the last X matches, 
