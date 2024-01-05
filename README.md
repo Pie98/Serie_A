@@ -7,8 +7,6 @@ This project is a machine learning application (mainly developed with Tensorflow
 ## Table of Contents
 
 - [Project Structure](#Project-Structure)
-- [Data](#data)
-- [Preprocessing](#preprocessing)
 - [Model Training](#model-training)
 - [Evaluation](#evaluation)
 
@@ -30,6 +28,20 @@ The repository is organized as follows:
     In create_fast_preprocessing_ts we batch and prefetch the datasets to accelerate the computation
     In preprocess_features_time_series_odds we batch and prefetch the datasets to accelerate the computation
     In create_fast_preprocessing_ts_odds we create all the features and labels necessary to train our model using the odds as features
+
+- **Time_series_win_predict:** The MAIN notebook where we create our models and test them.
+
+- **create_models_time_series:** The Main script containing the functions to create our models.
+
+- **New_predicts:** A notebook where we calculate the predictions and new odds.
+
+- **New_predicts_calc:** A script containing the functions to calculate predictions and new odds.
+
+-**exploratory_data_analysis:** A notebook where visualize some of the statistics of our dataframe
+
+-**Data_visualization:** A script containing the functions to visualize some statistics
+
+-**helper_functions:** A script containing some useful functions.
 
 ### Subfolders
 
