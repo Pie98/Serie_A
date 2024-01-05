@@ -16,6 +16,23 @@ This project is a machine learning application (mainly developed with Tensorflow
 
 The repository is organized as follows:
 
+### Main folder
+
+- **preprocess_days_stats:** The first preprocessing layer. 
+    In preprocess_match_days we select the important statistics, rename the columns, infer the date datatype and create the Season field.
+
+-**preprocess_time serie:** The second preprocessing layer. 
+    In preprocess_teams we create a dictionary of dataframe. Each dataframe contains the statistics of each match day, for every serie A team
+    In create_time_series_features we create a dataframe with the statisctics of every match day and the previous "giorni_cumulativi" match days.
+
+- **preprocess_days_stats:** The last preprocessing layer.
+    In preprocess_features_time_series we create all the features and labels necessary to train our model
+    In create_fast_preprocessing_ts we batch and prefetch the datasets to accelerate the computation
+    In preprocess_features_time_series_odds we batch and prefetch the datasets to accelerate the computation
+    In create_fast_preprocessing_ts_odds we create all the features and labels necessary to train our model using the odds as features
+
+### Subfolders
+
 - **csv_predictions:** This folder contains CSV files that will be used as a basis for creating new predictions.
 
 - **csv_serie_a:** Here, you can find CSV files (divided by season) used for training the models.
@@ -24,12 +41,12 @@ The repository is organized as follows:
 
 - **model_experiments:** This folder stores the models created during experimentation.
 
-- **notebooks:** In this directory, you'll find supporting Jupyter notebooks useful for testing.
+- **notebooks:** In this directory you'll find Jupyter notebooks useful for testing.
 
 - **Refreshing_odds:** This folder contains scripts for updating match odds and generating predictions for upcoming matches.
 
-- **results:** Here, certain results obtained during the model training phase are saved.
+- **results:** Here are saved certain results obtained during the model training phase.
 
-- **transformers:** The necessary column transformers for evaluating new matches are saved in this directory.
+- **transformers:** In this directory we can find the necessary column transformers for evaluating new matches.
 
 

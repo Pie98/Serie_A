@@ -6,7 +6,20 @@ import random
 import warnings
 import tensorflow as tf 
 
+#############################################################
+
+# ---------------- preprocessing teams ---------------------#
+
+#############################################################
+
+
 def preprocess_teams(dataframe = [], directory = []):
+    '''
+    inputs: 
+        a dataframe containing the statistics of every match day or a directory where a csv with the statistics is sotred.
+    outputs: 
+        Statistiche_squadre_dict: a dictionary of dataframe. Each dataframe contains the statistics of each match day, for every serie A team
+    '''
     if (len(directory) != 0):
         df_giornate = pd.read_csv(directory, parse_dates=['date'], index_col='index')
     elif (len(dataframe) !=0):   
@@ -139,9 +152,24 @@ def preprocess_teams(dataframe = [], directory = []):
 
     return Statistiche_squadre_dict
 
-# ----------------------------------------- #
+
+##################################################################
+
+# ---------------- create_time_series_features ------------------#
+
+##################################################################
+
 
 def create_time_series_features(num_features, team_stats_dict, df_giornate, giorni_cumulativi ):
+   '''
+   inputs: 
+        df_giornate: a dataframe with the statistics of every match day
+        num_features: The number of features that we want to use to train our model
+        teams_stats_dict: a dictionary of dataframe. Each dataframe contains the statistics of each match day, for every serie A team
+        giorni_cumulativi: The number of previous match days that we want to use to predict the next match day
+    outputs: 
+         df_Serie_A: A dataframe with the statisctics of every match day and the previous "giorni_cumulativi" match days.
+   '''
    all_features = ['ft_goals','ft_goals_conceded','shots','shots_target', 'fouls_done','corners_obtained', 'yellows', 'reds']
    less_features = ['ft_goals','ft_goals_conceded','shots', 'fouls_done','corners_obtained', 'reds']
    few_features = ['ft_goals','ft_goals_conceded','shots', 'reds']

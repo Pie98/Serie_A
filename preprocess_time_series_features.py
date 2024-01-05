@@ -22,6 +22,14 @@ from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
 
 def preprocess_features_time_series(df_Serie_A, num_features, random_state = True):
+    '''
+    inputs:
+        df_Serie_A: a dataframe with the statistics of every match day and the previous N match days.
+        num_features: The number of features that we want to use to train our model
+        random_state: If true it shuffles the train dataframe. If false the train dataset is composed by the first 85% of matches of each season.
+    outputs: 
+        all the features and labels necessary to train our model
+    '''
 
     all_features = ['ft_goals','ft_goals_conceded','shots','shots_target', 'fouls_done','corners_obtained', 'yellows', 'reds']
     less_features = ['ft_goals','ft_goals_conceded','shots', 'fouls_done','corners_obtained', 'reds']

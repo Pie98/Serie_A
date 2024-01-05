@@ -4,7 +4,21 @@ import pandasql as ps
 import os
     
 
+###############################################################
+
+# ---------------- preprocessing match days ------------------#
+
+###############################################################
+
+
 def preprocess_match_days(directory_path):
+    '''
+    inputs: 
+        a directory where the csv for each season are stored
+    outputs: 
+        df_giornate: a dataframe containing the statistics of each match day
+    '''
+
     concatenated_df = pd.DataFrame({})
     #leggo il path di ogni csv e lo converto in dataframe
     for file_name in os.listdir(fr"{directory_path}"):
@@ -77,7 +91,11 @@ def preprocess_match_days(directory_path):
     return df_giornate   
    
 
-#-------------------preprocess cumulative stats ----------------------#
+#####################################################################
+
+# ---------------- preprocessing cumulative stats ------------------#
+
+#####################################################################
 
 
 def preprocess_cumulative_stats(dataframe = [], directory = [], giorni_cumulativi = 5):
