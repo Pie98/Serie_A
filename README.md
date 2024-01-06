@@ -26,10 +26,10 @@ The repository is organized as follows:
     In create_time_series_features we create a dataframe with the statisctics of every match day and the previous "giorni_cumulativi" match days.
 
 - **preprocess_days_stats:** It's the last preprocessing layer.
-    In preprocess_features_time_series we create all the features and labels necessary to train our model
-    In create_fast_preprocessing_ts we batch and prefetch the datasets to accelerate the computation
-    In preprocess_features_time_series_odds we batch and prefetch the datasets to accelerate the computation
-    In create_fast_preprocessing_ts_odds we create all the features and labels necessary to train our model using the odds as features
+    In preprocess_features_time_series we create all the features and labels necessary to train our model.
+    In create_fast_preprocessing_ts we batch and prefetch the datasets to accelerate the computation.
+    In preprocess_features_time_series_odds we batch and prefetch the datasets to accelerate the computation.
+    In create_fast_preprocessing_ts_odds we create all the features and labels necessary to train our model using the odds as features.
 
 - **Time_series_win_predict:** The *main* notebook where we create our models and test them.
 
