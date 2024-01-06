@@ -78,6 +78,6 @@ The main limitations of this model are:
 
 - This model incorporates the odds we aim to enhance as a feature. Consequently, our probability of winning is influenced by the bookmakers' odds, making it more challenging to identify favorable odds for potential monetary gains.
 
-- This model is limited by the absence of some important features, such as the number of injured players, information about the coach, the referee, and the outcomes of competitions like Europa League, Champions League, Coppa Italia, players, etc., which were not available during the data collection process.
+- This model is limited by the absence of some important features, such as the number of injured players, information about the coach and the players, the referee, and the outcomes of competitions like Europa League, Champions League, Coppa Italia, etc., which were not available during the data collection process.
 
 - We could try to improve the model by adding some extra features as: number of matches won in the last X matches, number of matches won at home/away in the last X matches, numer of games won against the opponent teams in the last X matches. 
