@@ -22,7 +22,7 @@ The repository is organized as follows:
     In preprocess_match_days we select the important statistics, rename the columns, infer the date datatype and create the Season field.
 
 - **preprocess_time serie:** It's the second preprocessing layer. 
-    In preprocess_teams we create a dictionary of dataframe. Each dataframe contains the statistics of each match day, for every serie A team
+    In preprocess_teams we create a dictionary of dataframe. Each dataframe contains the statistics of each match day, for every serie A team.
     In create_time_series_features we create a dataframe with the statisctics of every match day and the previous "giorni_cumulativi" match days.
 
 - **preprocess_days_stats:** It's the last preprocessing layer.
