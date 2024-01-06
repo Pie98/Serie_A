@@ -65,7 +65,7 @@ The repository is organized as follows:
 
 ## Model Training
 
-Our goal is to create a model with higher accuracy than betting websites predictions. To achieve this, we initially create three different models: a Dense model, a Bidirectional LSTM model, and a CONV1D model. The best-performing models result from experiments and parameter testing, details of which are not documented in the notebook. Lastly, we built a model is that, in addition to the statistics from previous matches, incorporates bookmakers' statistics to obtain more accurate predictions.
+Our goal is to create a model with higher accuracy than betting websites predictions. To achieve this, we initially create three different models: a Dense model, a Bidirectional LSTM model, and a CONV1D model. The best-performing models result from experiments and parameter testing, details of which are not documented in the notebook. Lastly, we built a model that, in addition to the statistics from previous matches, incorporates bookmakers' statistics to obtain more accurate predictions.
 
 ## Evaluation
 
