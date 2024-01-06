@@ -111,7 +111,7 @@ def refresh_odds(start_filter, end_filter, num_matches, other_matches, prima_ite
         pd.read_csv(r'Refreshing_odds/last_odds.csv', dtype=column_types).to_csv('Refreshing_odds/previous_odds.csv',index=False)
 
     # Saving the html file
-    website_url = "https://www.snai.it/sport/CALCIO/SERIE%20A"
+    website_url = "https://www.*******.it/sport/CALCIO/SERIE%20A"
     output_path = "Refreshing_odds/last_odds.html"
     save_page_html(website_url, output_path)
 

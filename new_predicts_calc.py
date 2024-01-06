@@ -267,8 +267,8 @@ def new_predictions_calc(today_date, home_teams, away_teams, prima_iterazione):
 
     model_odds_new_compare[['model_away_prob','model_draw_prob','model_home_prob']] = model_odds_new_pred_probs
     model_odds_new_compare[['home_win_odds', 'draw_odds', 'away_win_odds']] = Test_df[['home_win_odds', 'draw_odds', 'away_win_odds']].values
-    model_odds_new_compare['snai_pred'] = np.argmin(Test_df[['home_win_odds', 'draw_odds', 'away_win_odds']].fillna(0.0).to_numpy(), axis=1)
-    model_odds_new_compare['snai_prob'] = np.nanmin(Test_df[['home_win_odds', 'draw_odds', 'away_win_odds']].fillna(0.0).to_numpy(), axis=1)
+    model_odds_new_compare['betting_pred'] = np.argmin(Test_df[['home_win_odds', 'draw_odds', 'away_win_odds']].fillna(0.0).to_numpy(), axis=1)
+    model_odds_new_compare['betting_prob'] = np.nanmin(Test_df[['home_win_odds', 'draw_odds', 'away_win_odds']].fillna(0.0).to_numpy(), axis=1)
 
     # Assegno ai valori encoded dei valori più comprensibili per vittoria pareggio sconfitta
     conditions = [
@@ -276,17 +276,17 @@ def new_predictions_calc(today_date, home_teams, away_teams, prima_iterazione):
     (model_odds_new_compare['preds'] == 0),  # Condizione per Away Win
     (model_odds_new_compare['preds'] == 1)   # Condizione per draw
     ]
-    conditions_snai = [
-    (model_odds_new_compare['snai_pred'] == 0),  # Condizione per Home Win
-    (model_odds_new_compare['snai_pred'] == 2),  # Condizione per Away Win
-    (model_odds_new_compare['snai_pred'] == 1)   # Condizione per Draw
+    conditions_betting = [
+    (model_odds_new_compare['betting_pred'] == 0),  # Condizione per Home Win
+    (model_odds_new_compare['betting_pred'] == 2),  # Condizione per Away Win
+    (model_odds_new_compare['betting_pred'] == 1)   # Condizione per Draw
     ]
     # Valori corrispondenti alle condizioni
     values = ['H', 'A', 'D']
 
     # Creazione della nuova colonna 'result' e 'points
     model_odds_new_compare['preds'] = np.select(conditions, values)
-    model_odds_new_compare['snai_pred'] = np.select(conditions_snai, values)
+    model_odds_new_compare['betting_pred'] = np.select(conditions_betting, values)
 
     # creo la colonna money won 
     model_odds_new_compare['pred_odds'] = model_odds_new_compare.apply(lambda row: row['home_win_odds'] if row['preds'] == 'H' else (row['draw_odds'] if row['preds'] == 'D' 
