@@ -31,9 +31,9 @@ The repository is organized as follows:
     In preprocess_features_time_series_odds we batch and prefetch the datasets to accelerate the computation
     In create_fast_preprocessing_ts_odds we create all the features and labels necessary to train our model using the odds as features
 
-- **Time_series_win_predict:** The MAIN notebook where we create our models and test them.
+- **Time_series_win_predict:** The *main* notebook where we create our models and test them.
 
-- **create_models_time_series:** The Main script containing the functions to create our models.
+- **create_models_time_series:** The *Main* script containing the functions to create our models.
 
 - **New_predicts:** A notebook where we calculate the predictions and new odds.
 
