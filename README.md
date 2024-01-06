@@ -39,11 +39,11 @@ The repository is organized as follows:
 
 - **New_predicts_calc:** A script containing the functions to calculate predictions and new odds.
 
--**exploratory_data_analysis:** A notebook where visualize some of the statistics of our dataframe
+- **exploratory_data_analysis:** A notebook where visualize some of the statistics of our dataframe
 
--**Data_visualization:** A script containing the functions to visualize some statistics
+- **Data_visualization:** A script containing the functions to visualize some statistics
 
--**helper_functions:** A script containing some useful functions.
+- **helper_functions:** A script containing some useful functions.
 
 ### Subfolders
 
