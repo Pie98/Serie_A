@@ -33,7 +33,7 @@ The repository is organized as follows:
 
 - **Time_series_win_predict:** The *main* notebook where we create our models and test them.
 
-- **create_models_time_series:** The *Main* script containing the functions to create our models.
+- **create_models_time_series:** The *main* script containing the functions to create our models.
 
 - **New_predicts:** A notebook where we calculate the predictions and new odds.
 
