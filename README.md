@@ -57,11 +57,11 @@ The repository is organized as follows:
 
 - **notebooks:** In this directory you'll find Jupyter notebooks useful for testing.
 
-- **Refreshing_odds:** This folder contains scripts for updating match odds and generating predictions for upcoming matches.
+- **Refreshing_odds:** This folder contains scripts to update match odds and generating predictions for upcoming matches.
 
 - **results:** Here are saved certain results obtained during the model training phase.
 
-- **transformers:** In this directory we can find the necessary column transformers for evaluating new matches.
+- **transformers:** In this directory we can find the necessary column transformers to evaluate new matches.
 
 ## Model Training
 
